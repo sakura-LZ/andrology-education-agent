@@ -1,0 +1,126 @@
+{
+  "updated": "2026-11-23",
+  "note": "分别登记入口、书目摘要核验与全文读取，不把整理日期或网页版权年份当作正式版本。",
+  "items": [
+    {
+      "id": "source-1",
+      "title": "EAU 性与生殖健康指南",
+      "url": "https://uroweb.org/guidelines/sexual-and-reproductive-health/chapter/male-infertility",
+      "category": "指南与共识",
+      "version": "2026（官方网页链接的完整指南版次）",
+      "note": "已核对曲张、NOA取精与评估推荐；完整PDF尚未独立读取。",
+      "status": "已读取官方章节正文",
+      "lastChecked": "2026-11-23"
+    },
+    {
+      "id": "source-2",
+      "title": "AUA/ASRM 男性不育指南",
+      "url": "https://www.auanet.org/guidelines-and-quality/guidelines/male-infertility",
+      "category": "指南与共识",
+      "version": "历史登记：2020 发布 / 2024 修订；待复核",
+      "note": "本轮官方页返回403，未确认后续修订；不把2024历史记录声称为已核实最新版。",
+      "status": "待联网核验",
+      "lastChecked": null
+    },
+    {
+      "id": "source-3",
+      "title": "WHO 精液检查与处理手册",
+      "url": "https://www.who.int/publications/i/item/9789240030787",
+      "category": "技术与结果判读",
+      "version": "第六版，2021-07-27；ISBN9789240030787",
+      "note": "官方书目已读；本轮未取得手册PDF全文。",
+      "status": "官方出版页已核对",
+      "lastChecked": "2026-11-23"
+    },
+    {
+      "id": "source-4",
+      "title": "WHO 不孕症预防、诊断与治疗指南",
+      "url": "https://www.who.int/publications/i/item/9789240115774",
+      "category": "指南与共识",
+      "version": "2025-11-28；ISBN9789240115774",
+      "note": "262页；官方另有20页推荐摘要，PDF未成功取得。",
+      "status": "官方出版页已核对",
+      "lastChecked": "2026-11-23"
+    },
+    {
+      "id": "source-5",
+      "title": "CST Western blot protocol",
+      "url": "https://www.cellsignal.com/learn-and-support/protocols/protocol-western",
+      "category": "基础实验操作",
+      "version": "本次访问的公开网页，未据版权年份推定规程版次",
+      "note": "具体参数必须匹配目标、抗体和试剂说明。",
+      "status": "已读取官方正文",
+      "lastChecked": "2026-11-23"
+    },
+    {
+      "id": "source-6",
+      "title": "CST 实验规程目录",
+      "url": "https://www.cellsignal.com/learn-and-support/protocols",
+      "category": "基础实验操作",
+      "version": "本次访问的公开网页，未据版权年份推定规程版次",
+      "note": "WB、免疫荧光等规程的官方查找入口。",
+      "status": "已读取官方正文",
+      "lastChecked": "2026-11-23"
+    },
+    {
+      "id": "source-7",
+      "title": "ATCC Animal Cell Culture Guide",
+      "url": "https://www.atcc.org/resources/culture-guides/animal-cell-culture-guide",
+      "category": "基础实验操作",
+      "version": "本次访问的公开网页，未据版权年份推定规程版次",
+      "note": "培养条件应匹配具体细胞系。",
+      "status": "已读取官方正文",
+      "lastChecked": "2026-11-23"
+    },
+    {
+      "id": "source-8",
+      "title": "MIQE 原始报告规范",
+      "url": "https://doi.org/10.1373/clinchem.2008.112797",
+      "category": "基础实验操作",
+      "version": "2009 原始规范；非已核实最新版",
+      "note": "用于定位 qPCR 质量与报告要求，后续更新需继续核验。",
+      "status": "待联网核验",
+      "lastChecked": null
+    },
+    {
+      "id": "source-9",
+      "title": "ASRM 实践指南",
+      "url": "https://www.asrm.org/practice-guidance/",
+      "category": "指南与共识",
+      "version": "官网现行条目待核验",
+      "note": "按具体治疗问题查找，不泛化所有 ART 适应证。",
+      "status": "待联网核验",
+      "lastChecked": null
+    },
+    {
+      "id": "source-10",
+      "title": "ESHRE 指南与建议",
+      "url": "https://www.eshre.eu/Guidelines-and-Legal/Guidelines",
+      "category": "指南与共识",
+      "version": "官网现行条目待核验",
+      "note": "核对推荐范围、人群与版本。",
+      "status": "待联网核验",
+      "lastChecked": null
+    },
+    {
+      "id": "source-miqe2",
+      "title": "MIQE 2.0：qPCR 报告规范修订",
+      "url": "https://europepmc.org/article/MED/40272429",
+      "category": "基础实验操作",
+      "version": "2025；DOI 10.1093/clinchem/hvaf043",
+      "note": "书目与摘要已核对，出版方全文未取得。",
+      "status": "书目与摘要已核对",
+      "lastChecked": "2026-11-23"
+    },
+    {
+      "id": "source-if-cell",
+      "title": "CST 细胞成像免疫荧光规程",
+      "url": "https://www.cellsignal.com/learn-and-support/protocols/protocol-if-cell-based-imaging",
+      "category": "基础实验操作",
+      "version": "页面注明 2025-09 修订",
+      "note": "已读取固定、通透、封闭与抗体孵育各节。",
+      "status": "已读取官方正文",
+      "lastChecked": "2026-11-23"
+    }
+  ]
+}

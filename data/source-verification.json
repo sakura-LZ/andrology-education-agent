@@ -1,0 +1,76 @@
+{
+  "checked": "2026-11-23",
+  "checks": [
+    {
+      "source": "CST Western Blotting Protocol",
+      "file": "work/sources/cst-western.html",
+      "url": "https://www.cellsignal.com/learn-and-support/protocols/protocol-western",
+      "scope": "官方规程全文已读取；不是所有目标通用SOP",
+      "section": "A. Solutions and Reagents / B. Protein Blotting / C. Membrane Blocking and Antibody Incubations / D. Protein Detection",
+      "quote": "This protocol has been optimized for nitrocellulose membranes.",
+      "checked": "2026-11-23",
+      "sha256": "0dbd16bd957d064bd9350030848ec820cd971a7df146a99dabcd022b5a024d98"
+    },
+    {
+      "source": "CST Immunofluorescence Protocol for Cell-based Imaging",
+      "file": "work/sources/cst-if-cell.html",
+      "url": "https://www.cellsignal.com/learn-and-support/protocols/protocol-if-cell-based-imaging",
+      "scope": "细胞样本规程正文；页面注明2025-09修订",
+      "section": "B. Sample Preparation / C. Immunostaining",
+      "quote": "Please refer to the protocol on the product webpage for detailed recommendations.",
+      "checked": "2026-11-23",
+      "sha256": "60a9ca6ce3290b7aab10c2517b97f8351f997b30d04d914401b976ac38f7315f"
+    },
+    {
+      "source": "ATCC Animal Cell Culture Guide",
+      "file": "work/sources/atcc-culture.html",
+      "url": "https://www.atcc.org/resources/culture-guides/animal-cell-culture-guide",
+      "scope": "已读取公开指南；具体细胞条件查产品说明",
+      "section": "Cell Growth and Propagation / Antibiotics and antimycotics",
+      "quote": "Antibiotics can mask contamination by mycoplasma and resistant bacteria.",
+      "checked": "2026-11-23",
+      "sha256": "f3bd6ecf0b8c9eaa3fff324ce7fec8cc7b0b87d778e48f609b52e526388b2174"
+    },
+    {
+      "source": "MIQE 2.0, 2025",
+      "file": "work/sources/miqe-update.json",
+      "url": "https://europepmc.org/article/MED/40272429",
+      "doi": "10.1093/clinchem/hvaf043",
+      "scope": "仅书目与摘要已核对；出版方全文访问受限",
+      "section": "Abstract / Content",
+      "quote": "Cq) values should be converted into efficiency-corrected target quantities",
+      "checked": "2026-11-23",
+      "sha256": "e7fa79866045ce391ad2441ab0cc3166497f43960746918f19ae25fede13b9bc"
+    },
+    {
+      "source": "EAU Male Infertility 2026",
+      "file": "work/sources/eau-male-infertility.html",
+      "url": "https://uroweb.org/guidelines/sexual-and-reproductive-health/chapter/male-infertility",
+      "section": "Varicocele recommendations / NOA recommendations",
+      "quote": "Use microdissection TESE as the treatment of choice to retrieve sperm in patients with NOA.",
+      "checked": "2026-11-23",
+      "scope": "官方网页正文，完整PDF版次链接为2026",
+      "sha256": "8d9fbe84cfb73d4b669daf20cb8abb6aa5707a31b4afbbc913f31a755047ccd7"
+    },
+    {
+      "source": "WHO infertility guideline publication page",
+      "file": "work/sources/who-infertility-guideline.html",
+      "url": "https://www.who.int/publications/i/item/9789240115774",
+      "section": "Publication date and overview",
+      "quote": "The objective of this guideline is to provide evidence-based recommendations to prevent, diagnose and treat infertility.",
+      "checked": "2026-11-23",
+      "scope": "仅官方出版页，PDF未读取",
+      "sha256": "230e5ed54bccea377e84165948dcaec86316b364161119b289844a17b18559f6"
+    },
+    {
+      "source": "WHO infertility recommendations publication page",
+      "file": "work/sources/who-infertility-recommendations.html",
+      "url": "https://www.who.int/publications/i/item/B09599",
+      "section": "Publication overview",
+      "quote": "This document presents a summary of recommendations contained in the WHO guideline",
+      "checked": "2026-11-23",
+      "scope": "仅官方出版页，PDF未读取",
+      "sha256": "d935ec83a326d8ef1b0471a2a6b2f897920a9148428db0167a33bc86756aa675"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "$schema_note": "WHO 精液分析参考值查表：数字类回答必须以此表为准，不得用模型记忆替代；数值以导师审核后的 kb/m3.md 为准",
+  "source": "WHO《人类精液检查与处理实验室手册》第6版（2021），参考值下限（第5百分位）",
+  "review_status": "待导师审核",
+  "specimen": {
+    "禁欲时间": "2~7 天",
+    "采集方式": "手淫法、无菌广口容器",
+    "送检要求": "37°C 保温、1 小时内送检",
+    "复查建议": "结果异常建议复查（间隔数周，≥2 次）"
+  },
+  "lower_reference_limits": [
+    {
+      "param": "精液量",
+      "en": "Semen volume",
+      "value": "1.4 mL"
+    },
+    {
+      "param": "精子总数",
+      "en": "Total sperm number",
+      "value": "39 × 10⁶ / 次射精"
+    },
+    {
+      "param": "精子浓度",
+      "en": "Sperm concentration",
+      "value": "16 × 10⁶ / mL"
+    },
+    {
+      "param": "前向运动 (PR)",
+      "en": "Progressive motility",
+      "value": "30%"
+    },
+    {
+      "param": "总活力 (PR+NP)",
+      "en": "Total motility",
+      "value": "42%"
+    },
+    {
+      "param": "存活率",
+      "en": "Vitality",
+      "value": "54%"
+    },
+    {
+      "param": "正常形态",
+      "en": "Normal morphology",
+      "value": "4%"
+    }
+  ],
+  "vs_5th_ed": "第5版（2010）微调：浓度 15→16 × 10⁶/mL、前向运动 32%→30%，教学以第6版为准",
+  "interpretation": {
+    "少精子症": "精子浓度低于参考下限（< 16 × 10⁶/mL），按严重程度分轻/中/重",
+    "弱精子症": "前向运动比例低于参考下限（< 30%）",
+    "畸形精子症": "正常形态比例低于参考下限（< 4%）",
+    "无精子症": "射精中无精子；需区分梗阻性（OA，生精正常）与非梗阻性（NOA，生精障碍）"
+  }
+}

@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#F5F6F8">
+<title>男科知识库 · 个人查询与资料整合</title>
+<style>
+  :root{
+    --bg:#F5F6F8;
+    --surface:#FFFFFF;
+    --ink:#16191F;
+    --muted:#5A6272;
+    --faint:#99A1B1;
+    --line:#E7E9EF;
+    --line-strong:#D9DDE7;
+    --brand:#3A5FE8;
+    --brand-2:#6A87F7;
+    --brand-strong:#2B47C9;
+    --brand-soft:#EAF0FE;
+    --accent:#11A18C;
+    --accent-soft:#E4F6F2;
+    --amber:#B25A0F;
+    --amber-soft:#FBEEDC;
+    --user-bg:#EFF2F8;
+    --user-line:#E1E5EE;
+    --shadow-sm:0 1px 2px rgba(18,23,40,.06);
+    --shadow-md:0 10px 30px rgba(18,23,40,.08);
+    --shadow-lg:0 26px 60px rgba(18,23,40,.16);
+    --sans:"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei","Noto Sans SC",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+    --mono:"SF Mono","Cascadia Code","JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;height:100%}
+  body{
+    background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.72;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-size:15px;
+    overflow:hidden;
+  }
+  button{font-family:inherit;cursor:pointer}
+  a{color:var(--brand);text-decoration:none}
+  a:hover{text-decoration:underline}
+  ::selection{background:var(--brand-soft);color:var(--brand-strong)}
+  [hidden]{display:none!important}
+
+  /* ===== 顶部导航 ===== */
+  header.topbar{
+    position:fixed;top:0;left:0;right:0;height:58px;z-index:30;
+    background:rgba(255,255,255,.78);backdrop-filter:saturate(180%) blur(14px);
+    -webkit-backdrop-filter:saturate(180%) blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{max-width:856px;margin:0 auto;height:100%;padding:0 22px;
+    display:flex;align-items:center;gap:10px}
+  .logo{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;color:#fff;
+    background:linear-gradient(135deg,var(--brand) 0%,var(--brand-2) 100%);
+    box-shadow:0 4px 12px rgba(58,95,232,.28)}
+  .logo svg{width:20px;height:20px}
+  .brand-name{font-size:15.5px;font-weight:700;letter-spacing:.01em;white-space:nowrap}
+  .brand-status{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);white-space:nowrap}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .topbar .spacer{flex:1}
+  .toolbar{display:flex;align-items:center;gap:8px}
+  .pill-btn{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;
+    color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:999px;
+    padding:8px 14px;transition:.15s;white-space:nowrap}
+  .pill-btn svg{width:15px;height:15px}
+  .pill-btn:hover{color:var(--brand);border-color:var(--brand);background:var(--brand-soft)}
+  .icon-btn{width:38px;height:38px;border-radius:11px;border:1px solid var(--line);background:transparent;
+    color:var(--muted);display:grid;place-items:center;transition:.15s}
+  .icon-btn svg{width:18px;height:18px}
+  .icon-btn:hover{color:var(--brand);border-color:var(--brand);background:var(--brand-soft)}
+
+  /* ===== 对话主区 ===== */
+  main.chat{position:fixed;top:58px;left:0;right:0;bottom:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .thread{max-width:760px;margin:0 auto;padding:32px 22px 232px}
+  .msg{display:flex;flex-direction:column;margin-bottom:28px;animation:rise .3s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+
+  /* 助手：整宽文档，不再挤成一枚左气泡 */
+  .msg.assistant .aid{display:flex;align-items:center;gap:9px;margin-bottom:9px;padding-top:2px}
+  .msg.assistant .aid-badge{width:28px;height:28px;border-radius:8px;flex:none;display:grid;place-items:center;
+    color:#fff;font-size:13px;font-weight:700;
+    background:linear-gradient(135deg,var(--brand) 0%,var(--accent) 135%);
+    box-shadow:0 2px 6px rgba(58,95,232,.22)}
+  .msg.assistant .aid-name{font-size:12.5px;font-weight:600;color:var(--muted);letter-spacing:.01em}
+  .msg.assistant .bubble{width:100%;font-size:15px;line-height:1.74;color:var(--ink)}
+  .msg.assistant .bubble p{margin:0 0 11px}
+  .msg.assistant .bubble p:last-child{margin-bottom:0}
+  .msg.assistant .bubble h1,.msg.assistant .bubble h2,.msg.assistant .bubble h3,
+  .msg.assistant .bubble h4{font-weight:700;line-height:1.45;margin:20px 0 9px;color:var(--ink)}
+  .msg.assistant .bubble h1{font-size:18.5px}
+  .msg.assistant .bubble h2{font-size:16.5px}
+  .msg.assistant .bubble h3{font-size:15px;margin-top:16px}
+  .msg.assistant .bubble h4{font-size:14.5px}
+  .msg.assistant .bubble ul,.msg.assistant .bubble ol{margin:6px 0 13px;padding-left:24px}
+  .msg.assistant .bubble li{margin:5px 0}
+  .msg.assistant .bubble li::marker{color:var(--faint)}
+  .msg.assistant .bubble code{font-family:var(--mono);background:#EDF0F5;border:1px solid var(--line);
+    border-radius:6px;padding:1px 6px;font-size:13px;color:#C2410C}
+  .msg.assistant .bubble pre{background:#0F172A;color:#E2E8F0;border-radius:12px;padding:14px 16px;
+    overflow-x:auto;font-size:13px;line-height:1.62;margin:11px 0}
+  .msg.assistant .bubble pre code{background:none;border:none;color:inherit;padding:0;font-size:13px}
+  .msg.assistant .bubble blockquote{margin:11px 0;padding:11px 15px;border-left:3px solid var(--accent);
+    background:var(--accent-soft);border-radius:0 10px 10px 0;color:#0E5B53;font-size:14px}
+  .msg.assistant .bubble blockquote p{margin:3px 0}
+  .msg.assistant .bubble hr{border:none;border-top:1px solid var(--line);margin:15px 0}
+  .msg.assistant .bubble strong{font-weight:700}
+  .msg.assistant .bubble .md-table{overflow-x:auto;margin:11px 0;border:1px solid var(--line);border-radius:12px}
+  .msg.assistant .bubble table{border-collapse:collapse;width:100%;font-size:13.5px;background:var(--surface)}
+  .msg.assistant .bubble th,.msg.assistant .bubble td{border-bottom:1px solid var(--line);padding:8px 12px;text-align:left}
+  .msg.assistant .bubble th{background:#F3F5F9;font-weight:600;color:var(--muted);font-size:12.5px;white-space:nowrap}
+  .msg.assistant .bubble tr:last-child td{border-bottom:none}
+  .msg.assistant .bubble td{font-variant-numeric:tabular-nums}
+  .msg.assistant .bubble input[type=checkbox]{accent-color:var(--accent);margin-right:6px}
+
+  /* 用户：右侧的一枚轻浅气泡 */
+  .msg.user{align-items:flex-end}
+  .msg.user .bubble{max-width:78%;background:var(--user-bg);border:1px solid var(--user-line);
+    border-radius:16px 16px 5px 16px;padding:11px 15px;font-size:14.5px;line-height:1.64;
+    color:var(--ink);white-space:pre-wrap;word-break:break-word}
+  .typing{display:inline-flex;gap:5px;padding:7px 2px}
+  .typing span{width:7px;height:7px;border-radius:50%;background:var(--faint);animation:blink 1.2s infinite}
+  .typing span:nth-child(2){animation-delay:.18s}.typing span:nth-child(3){animation-delay:.36s}
+  @keyframes blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
+
+  /* ===== 欢迎 / 空状态 ===== */
+  .welcome{max-width:640px;margin:0 auto;padding-top:6.5vh;text-align:center}
+  .welcome .mark{width:60px;height:60px;border-radius:16px;margin:0 auto 18px;display:grid;place-items:center;color:#fff;
+    background:linear-gradient(135deg,var(--brand) 0%,var(--brand-2) 55%,var(--accent) 130%);
+    box-shadow:0 12px 30px rgba(58,95,232,.28)}
+  .welcome .mark svg{width:32px;height:32px}
+  .welcome h1{font-size:25px;font-weight:700;letter-spacing:-.01em;margin:0 0 9px}
+  .welcome .intro{font-size:14.5px;color:var(--muted);margin:0 auto;max-width:470px}
+  .cap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin:28px 0 0;text-align:left}
+  .cap{display:flex;align-items:center;gap:12px;padding:13px 15px;background:var(--surface);
+    border:1px solid var(--line);border-radius:14px;cursor:pointer;transition:.16s;text-align:left;width:100%}
+  .cap:hover{border-color:var(--brand);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+  .cap .cap-icon{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;
+    background:var(--brand-soft);color:var(--brand)}
+  .cap .cap-icon svg{width:18px;height:18px}
+  .cap .cap-title{font-size:14px;font-weight:700}
+  .welcome .divider{display:flex;align-items:center;gap:12px;margin:26px 0 14px;color:var(--faint);font-size:12.5px}
+  .welcome .divider::before,.welcome .divider::after{content:"";flex:1;height:1px;background:var(--line)}
+  .chips{display:flex;flex-wrap:wrap;gap:9px;justify-content:center}
+  .chip{font-size:13px;color:var(--muted);background:var(--surface);border:1px solid var(--line);
+    border-radius:999px;padding:8px 15px;cursor:pointer;transition:.15s;max-width:100%;text-align:left}
+  .chip:hover{color:var(--brand);border-color:var(--brand);background:var(--brand-soft)}
+
+  /* ===== 输入区 ===== */
+  .composer{position:fixed;left:0;right:0;bottom:0;z-index:25;padding:0 22px 12px;
+    background:linear-gradient(to top,var(--bg) 64%,rgba(245,246,248,0));pointer-events:none}
+  .composer-inner{max-width:760px;margin:0 auto;pointer-events:auto}
+  .composer-note{font-size:11.5px;color:var(--muted);text-align:center;margin-bottom:9px;padding:0 8px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .composer-note b{color:var(--amber);font-weight:600}
+  .composer-card{background:var(--surface);border:1px solid var(--line-strong);border-radius:18px;
+    box-shadow:var(--shadow-md);overflow:hidden;transition:border-color .15s,box-shadow .15s}
+  .composer-card:focus-within{border-color:var(--brand);box-shadow:0 0 0 3px rgba(58,95,232,.12),var(--shadow-md)}
+  .composer textarea{display:block;width:100%;border:none;outline:none;resize:none;background:transparent;
+    font-family:inherit;font-size:15px;line-height:1.62;color:var(--ink);padding:15px 16px 6px;
+    min-height:52px;max-height:180px}
+  .composer textarea::placeholder{color:var(--faint)}
+  .composer-foot{display:flex;align-items:center;gap:8px;padding:6px 8px 8px 12px}
+  .module-pill{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--muted);
+    background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:5px 11px;cursor:pointer;
+    transition:.15s;max-width:58%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .module-pill svg{width:13px;height:13px;flex:none}
+  .module-pill:hover{color:var(--brand);border-color:var(--brand)}
+  .composer-foot .grow{flex:1}
+  .send-btn{width:39px;height:39px;border-radius:50%;border:none;background:var(--brand);color:#fff;
+    display:grid;place-items:center;transition:.15s;flex:none;box-shadow:0 4px 12px rgba(58,95,232,.3)}
+  .send-btn svg{width:17px;height:17px}
+  .send-btn:hover{background:var(--brand-strong)}
+  .send-btn:disabled{background:#C7CBD6;box-shadow:none;cursor:not-allowed}
+
+  /* ===== 知识库（全屏页） ===== */
+  .kb-page{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column}
+  .kb-topbar{flex:none;height:58px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.85);
+    backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);
+    display:flex;align-items:center;gap:12px;padding:0 22px}
+  .kb-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--muted);
+    border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 13px;cursor:pointer;transition:.15s}
+  .kb-back svg{width:15px;height:15px}
+  .kb-back:hover{color:var(--brand);border-color:var(--brand)}
+  .kb-title{font-size:15.5px;font-weight:700}
+  .kb-topbar .grow{flex:1}
+  .kb-progress{font-size:12.5px;color:var(--muted);white-space:nowrap}
+  .kb-progress b{color:var(--brand);font-weight:700}
+  .kb-scroll{flex:1;overflow-y:auto}
+  .kb-wrap{max-width:900px;margin:0 auto;padding:30px 24px 90px}
+  .kb-h1{font-size:24px;font-weight:700;letter-spacing:-.01em;margin:0 0 6px}
+  .kb-sub{font-size:13.5px;color:var(--muted);margin:0 0 24px}
+  .kb-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .kb-card{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--surface);
+    border:1px solid var(--line);border-radius:14px;padding:15px 16px;cursor:pointer;transition:.16s}
+  .kb-card:hover{border-color:var(--brand);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+  .kb-card.active{border-color:var(--brand);background:var(--brand-soft)}
+  .kb-card-body{flex:1;min-width:0}
+  .kb-card-name{display:block;font-size:15px;font-weight:600;color:var(--ink)}
+  .kb-card-sub{display:block;font-size:12px;color:var(--faint);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cur-badge{display:inline-block;font-size:10px;font-weight:600;color:var(--brand);background:var(--brand-soft);
+    border:1px solid #D6E0FF;border-radius:6px;padding:1px 6px;margin-left:5px;vertical-align:1px}
+  .kb-card .chev{width:18px;height:18px;flex:none;color:var(--faint);transition:.15s}
+  .kb-card:hover .chev{color:var(--brand)}
+  .kb-sec{font-size:16px;font-weight:700;margin:36px 0 14px;padding-top:22px;border-top:1px solid var(--line)}
+  .kb-sec .note{font-size:12px;color:var(--faint);font-weight:400;margin-left:8px}
+  .btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);
+    color:var(--ink);border-radius:10px;padding:8px 14px;font-size:13.5px;font-weight:500;cursor:pointer;transition:.15s}
+  .btn:hover{border-color:var(--brand);color:var(--brand)}
+  .btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+  .btn.primary:hover{background:var(--brand-strong);color:#fff}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .kb-detail-head{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+  .kb-detail-head .grow{flex:1}
+  .kb-tag{display:inline-block;font-size:11px;font-weight:600;color:var(--amber);background:var(--amber-soft);
+    border:1px solid #F0DCAE;border-radius:999px;padding:2px 10px;margin-bottom:14px}
+  .kb-prevnext{display:flex;gap:10px;margin-top:30px;padding-top:20px;border-top:1px solid var(--line)}
+
+  /* 知识库正文（Markdown） */
+  .kb-md{font-size:15px;line-height:1.75;color:var(--ink)}
+  .kb-md h1{font-size:21px;font-weight:700;line-height:1.4;margin:0 0 14px}
+  .kb-md h2{font-size:16.5px;font-weight:700;margin:22px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+  .kb-md h3{font-size:15px;font-weight:700;margin:16px 0 6px}
+  .kb-md h4{font-size:14px;font-weight:600;margin:12px 0 4px}
+  .kb-md p{margin:8px 0}
+  .kb-md ul,.kb-md ol{margin:6px 0 12px;padding-left:22px}
+  .kb-md li{margin:4px 0}
+  .kb-md li::marker{color:var(--faint)}
+  .kb-md code{font-family:var(--mono);background:#EDF0F5;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:13px;color:#C2410C}
+  .kb-md pre{background:#0F172A;color:#E2E8F0;border-radius:12px;padding:13px 15px;overflow-x:auto;font-size:13px;line-height:1.6;margin:10px 0}
+  .kb-md pre code{background:none;border:none;color:inherit;padding:0}
+  .kb-md blockquote{margin:10px 0;padding:10px 14px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;color:#0E5B53;font-size:14px}
+  .kb-md blockquote p{margin:2px 0}
+  .kb-md hr{border:none;border-top:1px solid var(--line);margin:14px 0}
+  .kb-md strong{font-weight:700}
+  .kb-md a{color:var(--brand);font-weight:500}
+  .kb-md .md-table{overflow-x:auto;margin:10px 0;border:1px solid var(--line);border-radius:12px}
+  .kb-md table{border-collapse:collapse;width:100%;font-size:13.5px;background:var(--surface)}
+  .kb-md th,.kb-md td{border-bottom:1px solid var(--line);padding:8px 11px;text-align:left}
+  .kb-md th{background:#F3F5F9;font-weight:600;color:var(--muted);font-size:12.5px;white-space:nowrap}
+  .kb-md tr:last-child td{border-bottom:none}
+  .kb-md td{font-variant-numeric:tabular-nums}
+
+  /* 文献卡片（知识库页内） */
+  .lit-card{display:block;background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    padding:15px;margin-bottom:10px;transition:.15s}
+  .lit-card:hover{border-color:var(--brand);box-shadow:var(--shadow-sm)}
+  .lit-card .lc-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+  .lit-card .lc-tag{font-size:11px;font-weight:600;color:var(--brand);background:var(--brand-soft);border-radius:999px;padding:2px 10px}
+  .lit-card .lc-tag.guide{color:#0F766E;background:var(--accent-soft)}
+  .lit-card h4{margin:0 0 4px;font-size:14px;line-height:1.5;font-weight:600;color:var(--ink)}
+  .lit-card .lc-src{font-size:12px;color:var(--faint)}
+  .lit-card .lc-why{font-size:12.5px;color:var(--muted);background:var(--bg);border-radius:8px;padding:7px 10px;margin-top:8px}
+  .lit-card .lc-link{font-size:12.5px;font-weight:600;display:inline-block;margin-top:8px}
+
+  /* ===== 提示浮层 ===== */
+  .toast{position:fixed;bottom:112px;left:50%;transform:translateX(-50%) translateY(8px);z-index:99;
+    background:#16181D;color:#fff;padding:9px 18px;border-radius:999px;font-size:13px;opacity:0;
+    transition:.2s;box-shadow:var(--shadow-lg);pointer-events:none}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* ===== 响应式 ===== */
+  @media (max-width:640px){
+    .brand-status{display:none}
+    .cap-grid{grid-template-columns:1fr}
+    .kb-grid{grid-template-columns:1fr}
+    .msg.user .bubble{max-width:88%}
+    .composer-note{font-size:11px}
+    .welcome{padding-top:1vh}
+    .welcome h1{font-size:21px}
+    .welcome .mark{width:52px;height:52px;margin-bottom:14px}
+    .welcome .mark svg{width:27px;height:27px}
+    .welcome .intro{font-size:13.5px}
+    .cap{padding:12px 13px}
+    .cap .cap-icon{width:32px;height:32px}
+    .cap .cap-title{font-size:13.5px}
+    .welcome .divider{margin:20px 0 12px}
+    .chip{font-size:12.5px;padding:8px 13px}
+  }
+  /* ===== 自测 / 错题 / 精读 / 病例 ===== */
+  .quiz-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0}
+  .quiz-select{font-family:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--line-strong);border-radius:10px;background:var(--surface);color:var(--ink);outline:none}
+  .quiz-select:focus{border-color:var(--brand)}
+  .quiz-q{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+  .quiz-q.result{background:transparent;border-color:var(--line-strong)}
+  .qq-head{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  .qq-head .ok{color:var(--accent)}.qq-head .no{color:#C2410C}
+  .qq-topic{font-size:11px;font-weight:600;color:var(--brand);background:var(--brand-soft);border-radius:999px;padding:2px 8px}
+  .qq-stem{font-size:14.5px;line-height:1.7;margin-bottom:10px}
+  .qq-opts{display:flex;flex-direction:column;gap:8px}
+  .opt-row{display:flex;align-items:flex-start;gap:10px;text-align:left;width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);font-size:14px;line-height:1.55;color:var(--ink);cursor:pointer;transition:.12s}
+  .opt-row:hover{border-color:var(--brand)}
+  .opt-row.selected{border-color:var(--brand);background:var(--brand-soft)}
+  .opt-row.correct{border-color:var(--accent);background:var(--accent-soft)}
+  .opt-row.wrong{border-color:#E85C5C;background:#FDEBEB}
+  .opt-row:disabled{cursor:default;opacity:1}
+  .opt-key{flex:none;width:22px;height:22px;border-radius:6px;display:grid;place-items:center;font-size:12px;font-weight:700;background:var(--bg);border:1px solid var(--line-strong);color:var(--muted)}
+  .opt-row.selected .opt-key{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .opt-row.correct .opt-key{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .opt-row.wrong .opt-key{background:#E85C5C;color:#fff;border-color:#E85C5C}
+  .opt-text{flex:1;min-width:0}
+  .opt-tag{flex:none;font-size:11px;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:2px 8px}
+  .opt-row.wrong .opt-tag{color:#C2410C;background:#FBE6E6}
+  .qq-explain{margin-top:12px;font-size:13.5px;line-height:1.7;color:#0E5B53;background:var(--accent-soft);border-radius:10px;padding:10px 13px}
+  .score-badge{font-size:16px;font-weight:700;padding:16px 18px;border-radius:14px;margin-bottom:16px}
+  .score-badge b{font-size:26px}
+  .score-badge.all{background:var(--accent-soft);color:#0F766E}
+  .score-badge.good{background:var(--brand-soft);color:var(--brand-strong)}
+  .score-badge.low{background:#FBE6E6;color:#C2410C}
+  .wrong-item{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:12px}
+  .wi-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+  .wi-mod{font-size:11px;font-weight:600;color:var(--brand);background:var(--brand-soft);border-radius:999px;padding:2px 9px}
+  .wi-due{font-size:12px;font-weight:600;color:var(--muted)}
+  .wi-due.hot{color:#C2410C}
+  .wi-stem{font-size:14px;line-height:1.65;margin-bottom:8px}
+  .wi-meta{font-size:12px;color:var(--faint);margin-bottom:10px}
+  .case-banner{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--amber-soft);border:1px solid #F0DCAE;border-radius:12px;padding:9px 14px;font-size:13px;color:var(--amber);margin-bottom:9px}
+  .case-banner .btn{font-size:12.5px;padding:6px 12px}
+  #deepText{width:100%;font-family:inherit;font-size:14px;line-height:1.7;padding:13px 15px;border:1px solid var(--line-strong);border-radius:12px;resize:vertical;outline:none;background:var(--surface);color:var(--ink)}
+  #deepText:focus{border-color:var(--brand)}
+  #deepResult .kb-sec{margin-top:26px}
+  .stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin:16px 0}
+  .stat-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+  .stat-card .sc-num{font-size:24px;font-weight:800;color:var(--brand)}
+  .stat-card .sc-label{font-size:12.5px;color:var(--muted);margin-top:2px}
+  @media (max-width:640px){.stat-cards{grid-template-columns:repeat(2,1fr)}}
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;animation:none!important}
+  }
+</style>
+<style>
+  .kb-tools{margin:24px 0}.search-label{display:block;font-size:13px;font-weight:600;margin-bottom:8px;color:var(--muted)}
+  .kb-search{width:100%;padding:13px 16px;font:inherit;background:white;border:1px solid var(--line-strong);border-radius:10px;color:var(--ink)}
+  .kb-search:focus{outline:2px solid var(--brand-soft);border-color:var(--brand)}
+  .category-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+  .category-tab{padding:7px 12px;border:1px solid var(--line);background:white;color:var(--muted);border-radius:8px;font-size:13px}
+  .category-tab[aria-pressed="true"]{background:var(--brand-soft);color:var(--brand);border-color:var(--brand)}
+  .library-note{display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;font-size:12px;color:var(--muted);margin:12px 0}
+  #kbGrid .kb-card{display:block;text-align:left;padding:20px;min-height:160px;height:auto;align-self:stretch}
+  #kbGrid .kb-card-name{display:block;font-size:16px;margin:9px 0;font-weight:650}
+  #kbGrid .kb-card-sub{display:block;white-space:normal;line-height:1.8;color:var(--muted);font-size:12px}
+  .doc-meta,.card-meta{display:flex;gap:8px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin:10px 0}
+  .doc-meta span,.card-meta span{padding:3px 7px;background:var(--brand-soft);border-radius:4px}
+  .doc-meta .audit,.card-meta .audit{background:var(--amber-soft);color:var(--amber)}
+  .doc-toc{padding:16px 20px;background:white;border:1px solid var(--line);border-radius:10px;margin:24px 0}
+  .doc-toc summary{cursor:pointer;font-size:14px;font-weight:600}.doc-toc nav{display:grid;gap:5px;margin-top:12px}
+  .doc-toc button{border:0;background:transparent;color:var(--brand);text-align:left;padding:3px 0;line-height:1.7;font-size:13px}
+  .kb-md h2,.kb-md h3{scroll-margin-top:20px}.source-panel{border-top:1px solid var(--line);padding-top:18px;margin-top:28px;font-size:13px}
+  .source-panel a{display:block;overflow-wrap:anywhere;margin:7px 0}.empty-state{padding:32px 0;color:var(--muted)}
+  .online-form{margin:24px 0}.online-controls{display:flex;align-items:center;flex-wrap:wrap;gap:16px;margin-top:12px;font-size:13px}
+  .online-controls input,.online-controls select{font:inherit;border:1px solid var(--line);border-radius:7px;padding:8px;background:white;max-width:120px}
+  .result-card{padding:22px;background:white;border:1px solid var(--line);border-radius:12px;margin:12px 0}
+  .result-card h3{font-size:16px;line-height:1.6;margin:4px 0 10px}.result-card p{font-size:13px;color:var(--muted);line-height:1.85}
+  .result-card details{font-size:13px;margin:14px 0}.result-card summary{cursor:pointer;color:var(--brand)}
+  .citation-strip{display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:14px;padding-top:10px}
+  .citation-strip button{background:var(--brand-soft);border:0;color:var(--brand);padding:6px 9px;border-radius:6px;font-size:12px}
+  #kbLoadError{background:var(--amber-soft);color:var(--amber);padding:12px;border-radius:8px;font-size:13px}
+  @media(max-width:600px){.topbar-inner{padding:0 12px;gap:6px}.toolbar{gap:4px}.toolbar .pill-btn{padding:7px 8px;font-size:12px}.brand-status{display:none}.brand-name{font-size:14px}.logo{display:none}.kb-grid{grid-template-columns:1fr}.online-controls{gap:10px}.kb-detail-head{flex-wrap:wrap}.doc-meta{font-size:11px}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="logo" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+      </svg>
+    </div>
+    <div class="brand-name">男科知识库</div>
+    <div class="brand-status" id="connectionStatus" aria-live="polite">正在连接资料库…</div><button id="reconnectBtn" class="btn" hidden>重新连接</button>
+    <div class="spacer"></div>
+    <div class="toolbar">
+      <button class="pill-btn" id="modulesBtn" title="查看知识库">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        知识库
+      </button>
+      <button class="pill-btn" id="quizOpenBtn" title="自测练习">自测</button>
+      <button class="pill-btn" id="deepOpenBtn" title="文献精读">精读</button>
+      <button class="pill-btn" id="onlineOpenBtn">联网查询</button>
+      <button class="pill-btn" id="caseOpenBtn" title="病例教学" hidden>病例</button>
+      <button class="pill-btn" id="teacherOpenBtn" title="教师端学习数据" hidden>教师端</button>
+      <button class="icon-btn" id="resetBtn" title="新对话">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="chat" id="chat"></main>
+
+<div class="composer">
+  <div class="composer-inner">
+    <div class="composer-note">教育内容 · <b>诊疗请咨询专业医生</b></div>
+    <div class="case-banner" id="caseBanner" hidden></div>
+    <div class="composer-card">
+      <textarea id="input" rows="1" placeholder="问我一个男科问题…"></textarea>
+      <div class="composer-foot">
+        <button class="module-pill" id="modulePill" title="查看知识库 / 切换当前模块">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span id="modulePillLabel">当前模块</span>
+        </button>
+        <div class="grow"></div>
+        <button class="send-btn" id="sendBtn" aria-label="发送">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 知识库（全屏页） -->
+<div class="kb-page" id="kbPage" hidden>
+  <div class="kb-topbar">
+    <button class="kb-back" id="kbBackHome">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      返回对话
+    </button>
+    <div class="kb-title">知识库</div>
+    <div class="grow"></div>
+    <div class="kb-progress"><span id="kbTotal">0</span> 篇资料 · 已读 <b id="kbDone">0</b></div>
+  </div>
+  <div class="kb-scroll" id="kbScroll">
+    <!-- 列表视图 -->
+    <div class="kb-wrap" id="kbListView">
+      <h1 class="kb-h1">知识库</h1>
+      <p class="kb-sub">基础知识、指南、手术、实验操作与结果判读。打开任一资料可阅读完整正文、章节和来源。</p>
+      <div class="kb-tools">
+        <label class="search-label" for="kbSearch">搜索全部正文</label>
+        <input id="kbSearch" class="kb-search" type="search" placeholder="搜索主题、术式、Western blot、内参…" autocomplete="off">
+        <div class="category-tabs" id="kbCategories" aria-label="知识分类"></div>
+        <div class="library-note"><span id="kbResultCount" aria-live="polite"></span><label><input type="checkbox" id="showEvidence"> 同时查看历史证据档案</label></div>
+        <div id="kbLoadError" role="status" hidden></div>
+      </div>
+      <div class="kb-grid" id="kbGrid"></div>
+      <p id="kbEmpty" class="empty-state" hidden>没有找到匹配资料。可换一个关键词，或到「联网查询」寻找来源。</p>
+      <h2 class="kb-sec">推荐阅读<span class="note">在对话里说「帮我找文献」可实时检索 Europe PMC</span></h2>
+      <div id="litList"></div>
+    </div>
+    <!-- 详情视图 -->
+    <div class="kb-wrap" id="kbDetailView" hidden>
+      <div class="kb-detail-head">
+        <button class="btn" id="kbDetailBack">← 模块列表</button>
+        <div class="grow"></div>
+        <button class="btn" id="kbCaseBtn" hidden>病例练习</button>
+        <button class="btn primary" id="kbStartBtn">结合这篇资料提问</button>
+      </div>
+      <h1 class="kb-h1" id="kbDetailTitle"></h1>
+      <div class="doc-meta" id="kbDetailMeta"></div>
+      <details class="doc-toc" open><summary>本篇目录</summary><nav id="kbToc" aria-label="文档目录"></nav></details>
+      <div class="kb-md" id="kbContent"></div>
+      <div class="source-panel" id="kbSources"></div>
+      <div class="kb-prevnext">
+        <button class="btn" id="kbPrev">← 上一模块</button>
+        <button class="btn" id="kbNext">下一模块 →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 自测（全屏页） -->
+<div class="kb-page" id="quizPage" hidden>
+  <div class="kb-topbar">
+    <button class="kb-back" id="quizBack">返回对话</button>
+    <div class="kb-title">自测</div>
+    <div class="grow"></div>
+    <button class="btn" id="wrongBtn">错题本（<span id="wrongCount">0</span>）</button>
+  </div>
+  <div class="kb-scroll" id="quizScroll">
+    <div class="kb-wrap" id="quizFormView">
+      <h1 class="kb-h1">自测练习</h1>
+      <p class="kb-sub">按模块出题（依据知识库）→ 交卷判分 → 逐题讲解 → 错题自动入错题本，按间隔重复安排复习</p>
+      <div class="quiz-controls">
+        <select id="quizModule" class="quiz-select"></select>
+        <select id="quizCount" class="quiz-select">
+          <option value="3">3 题</option><option value="5" selected>5 题</option><option value="8">8 题</option>
+        </select>
+        <button class="btn primary" id="quizStart">开始出题</button>
+      </div>
+    </div>
+    <div class="kb-wrap" id="quizQView" hidden>
+      <h1 class="kb-h1">答题</h1>
+      <div id="quizQList"></div>
+      <div class="kb-prevnext"><div class="grow"></div><button class="btn primary" id="quizSubmit">交卷判分</button></div>
+    </div>
+    <div class="kb-wrap" id="quizRView" hidden>
+      <h1 class="kb-h1">成绩与讲解</h1>
+      <div id="quizRList"></div>
+      <div class="kb-prevnext"><button class="btn" id="quizAgain">再练一次</button><div class="grow"></div><button class="btn" id="quizDoneBtn">完成</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- 错题本（全屏页） -->
+<div class="kb-page" id="wrongPage" hidden>
+  <div class="kb-topbar">
+    <button class="kb-back" id="wrongBack">返回对话</button>
+    <div class="kb-title">错题本</div>
+    <div class="grow"></div>
+    <div class="kb-progress">待复习 <b id="wrongDue">0</b> 题</div>
+  </div>
+  <div class="kb-scroll" id="wrongScroll">
+    <div class="kb-wrap">
+      <div id="wrongList"></div>
+      <div id="reviewBox" hidden></div>
+    </div>
+  </div>
+</div>
+
+<!-- 文献精读（全屏页） -->
+<div class="kb-page" id="deepPage" hidden>
+  <div class="kb-topbar">
+    <button class="kb-back" id="deepBack">返回对话</button>
+    <div class="kb-title">文献精读</div>
+  </div>
+  <div class="kb-scroll" id="deepScroll">
+    <div class="kb-wrap">
+      <h1 class="kb-h1">文献精读（四步法）</h1>
+      <p class="kb-sub">粘贴一篇文献的标题 / 摘要 / 片段，AI 按 背景→方法→结果→结论 拆解，并给出术语与学习要点</p>
+      <textarea id="deepText" rows="6" placeholder="粘贴文献标题或摘要…（≤6000 字）"></textarea>
+      <div class="kb-prevnext"><div class="grow"></div><button class="btn primary" id="deepGoBtn">开始精读</button></div>
+      <div id="deepResult" hidden></div>
+    </div>
+  </div>
+</div>
+
+<!-- 教师端（全屏页） -->
+<div class="kb-page" id="teacherPage" hidden>
+  <div class="kb-topbar">
+    <button class="kb-back" id="teacherBack">返回对话</button>
+    <div class="kb-title">教师端 · 学习数据</div>
+    <div class="grow"></div>
+    <div class="kb-progress" id="teacherUpdated"></div>
+  </div>
+  <div class="kb-scroll" id="teacherScroll">
+    <div class="kb-wrap">
+      <div id="teacherStats"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 联网检索：结果可直接阅读，不必先调用付费模型 -->
+<div class="kb-page" id="onlinePage" hidden>
+  <div class="kb-topbar"><button class="kb-back" id="onlineBack">返回对话</button><div class="kb-title">联网查询</div></div>
+  <div class="kb-scroll"><div class="kb-wrap">
+    <h1 class="kb-h1">查文献，也查官方来源</h1>
+    <p class="kb-sub">检索 Europe PMC 的实时文献与摘要；指南和实验规程从下方官方入口核对。检索结果不会自动写入知识库。</p>
+    <form id="onlineForm" class="online-form">
+      <label class="search-label" for="onlineQuery">主题或关键词</label>
+      <input id="onlineQuery" class="kb-search" required maxlength="400" placeholder="例如：精索静脉曲张复发、WB 阴性对照">
+      <div class="online-controls"><label>排序 <select id="onlineSort"><option value="relevance">相关性</option><option value="recent">发表时间</option></select></label>
+      <label>起始年份 <input id="onlineSince" type="number" min="1900" max="2026" placeholder="不限"></label>
+      <button class="btn primary" id="onlineSubmit" type="submit">检索文献</button></div>
+    </form>
+    <div id="onlineStatus" class="library-note" role="status" aria-live="polite"></div>
+    <div id="onlineResults"></div>
+    <h2 class="kb-sec">官方指南与实验规程</h2>
+    <p class="kb-sub">各来源显示实际核对状态；整理日期与文件版本分别记录。</p>
+    <div id="officialResources"></div>
+  </div></div>
+</div>
+
+<dialog id="authDialog" aria-labelledby="authTitle" style="width:min(420px,calc(100vw - 32px));box-sizing:border-box;border:1px solid var(--line);border-radius:18px;padding:28px;color:var(--ink);background:var(--surface)">
+  <form id="authForm">
+    <h2 id="authTitle" style="margin:0 0 12px;font-size:21px">连接知识库</h2>
+    <p id="authDescription" style="color:var(--muted);line-height:1.6">请输入访问口令，连接后即可浏览知识库和使用智能体。</p>
+    <label for="authInput">访问口令</label>
+    <input id="authInput" type="password" autocomplete="current-password" required aria-describedby="authError" style="display:block;box-sizing:border-box;width:100%;margin:10px 0;padding:12px;border:1px solid var(--line-strong);border-radius:8px;font:inherit">
+    <p id="authError" role="alert" style="color:var(--amber);font-size:14px;min-height:20px"></p>
+    <div style="display:flex;justify-content:flex-end;gap:10px"><button id="authCancel" class="btn" type="button">暂不连接</button><button id="authSubmit" class="btn primary" type="submit">连接</button></div>
+  </form>
+</dialog>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+/* 知识库全文与元数据统一来自 /api/modules；不回退到过期内嵌副本。 */
+let KB = [];
+
+/* ========== 推荐文献（在线优先取 /api/reading，离线兜底内嵌） ========== */
+let LIT = [];
+
+/* ========== 迷你 Markdown 渲染 ========== */
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function safeUrl(value){
+  const text=String(value || '').trim();
+  return /^(https?:\/\/|\/#knowledge=|#knowledge=)/i.test(text)?text:'#';
+}
+function inline(s){
+  s = esc(s);
+  s = s.replace(/`([^`]+)`/g,"<code>$1</code>");
+  s = s.replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>");
+  s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g,(_,label,url)=>'<a href="'+safeUrl(url)+'" target="_blank" rel="noopener noreferrer">'+label+'</a>');
+  return s;
+}
+function renderTable(rows){
+  const cells = r => r.replace(/^\s*\|\s?|\s?\|\s*$/g,"").split(/\s*\|\s*/);
+  let html = '<div class="md-table"><table><thead><tr>';
+  html += cells(rows[0]).map(c=>"<th>"+inline(c)+"</th>").join("");
+  html += '</tr></thead><tbody>';
+  for(let k=2;k<rows.length;k++){
+    html += "<tr>"+cells(rows[k]).map(c=>"<td>"+inline(c)+"</td>").join("")+"</tr>";
+  }
+  return html+"</tbody></table></div>";
+}
+function renderMd(md){
+  const lines = String(md||"").split("\n");
+  const out = []; const stack = []; let prevIndent = 0;
+  const closeLists = () => { while(stack.length) out.push("</"+stack.pop()+">"); };
+  let i = 0;
+  while(i < lines.length){
+    const line = lines[i];
+    if(!line.trim()){ i++; closeLists(); continue; }
+    if(/^\s*```/.test(line)){
+      closeLists(); i++;
+      const code = [];
+      while(i < lines.length && !/^\s*```/.test(lines[i])){ code.push(lines[i]); i++; }
+      i++;
+      out.push("<pre><code>"+esc(code.join("\n"))+"</code></pre>"); continue;
+    }
+    if(/^\s*\|/.test(line)){
+      const rows = [];
+      while(i < lines.length && /^\s*\|/.test(lines[i])){ rows.push(lines[i]); i++; }
+      closeLists(); out.push(renderTable(rows)); continue;
+    }
+    const h = line.match(/^(#{1,4})\s+(.*)$/);
+    if(h){ closeLists(); const lvl = Math.min(4, h[1].length); out.push("<h"+lvl+">"+inline(h[2])+"</h"+lvl+">"); i++; continue; }
+    if(/^\s*>\s?/.test(line)){
+      closeLists(); const q = [];
+      while(i < lines.length && /^\s*>\s?/.test(lines[i])){ q.push(lines[i].replace(/^\s*>\s?/,"")); i++; }
+      out.push("<blockquote>"+q.map(l=>"<p>"+inline(l)+"</p>").join("")+"</blockquote>"); continue;
+    }
+    if(/^\s*(-{3,}|\*{3,})\s*$/.test(line)){ closeLists(); out.push("<hr>"); i++; continue; }
+    const lm = line.match(/^(\s*)([-*]|\d+\.)\s+(.*)$/);
+    if(lm){
+      const indent = Math.min(6, Math.floor(lm[1].length / 2));
+      const tag = /\d/.test(lm[2]) ? "ol" : "ul";
+      if(stack.length === 0){ stack.push(tag); out.push("<"+tag+">"); }
+      else if(indent > prevIndent){ stack.push(tag); out.push("<"+tag+">"); }
+      else if(indent < prevIndent){ while(stack.length > indent + 1) out.push("</"+stack.pop()+">"); }
+      else if(stack[stack.length-1] !== tag){ out.push("</"+stack.pop()+">"); stack.push(tag); out.push("<"+tag+">"); }
+      prevIndent = indent;
+      out.push("<li>"+inline(lm[3])+"</li>");
+      i++; continue;
+    }
+    closeLists(); out.push("<p>"+inline(line)+"</p>"); i++;
+  }
+  closeLists();
+  return out.join("\n");
+}
+
+/* ========== 状态 ========== */
+const $ = id => document.getElementById(id);
+const chatEl = $("chat"), input = $("input"), sendBtn = $("sendBtn");
+let current = null;       // 当前模块
+let done = {};            // 学习进度（对话命中该模块后标记）
+let thinking = false;
+let viewing = null;       // 知识库当前查看的模块
+
+/* ========== 访问口令 / 多轮记忆 ========== */
+function studentId(){
+  let id = localStorage.getItem("andrology_sid");
+  if(!id){ id = "s" + Date.now().toString(36) + Math.random().toString(36).slice(2, 10); localStorage.setItem("andrology_sid", id); }
+  return id;
+}
+function authHeaders(){
+  const t = localStorage.getItem("andrology_token") || "";
+  const h = { "Content-Type": "application/json", "X-Student-Id": studentId() };
+  if(t) h["Authorization"] = "Bearer " + t;
+  return h;
+}
+function clearToken(){ localStorage.removeItem("andrology_token"); }
+let accessRequest = null;
+let authCancelled = false;
+let dialogQueue = Promise.resolve();
+function requestToken(teacher=false){
+  // 不同用途的口令顺序显示；同一批访问请求共用 accessRequest。
+  const pending = dialogQueue.then(()=>new Promise(resolve=>{
+    const dialog=$('authDialog'), field=$('authInput'), submit=$('authSubmit');
+    const previous=document.activeElement;
+    const key=teacher?'andrology_tkey':'andrology_token';
+    let finished=false, checking=false;
+    const finish=value=>{
+      finished=true;dialog.close();$('authForm').onsubmit=null;dialog.oncancel=null;
+      if(previous?.isConnected)previous.focus();resolve(value);
+    };
+    $('authTitle').textContent=teacher?'教师端验证':'连接知识库';
+    $('authDescription').textContent=teacher?'请输入教师端口令，查看学习统计。':'请输入访问口令，连接后即可浏览知识库和使用智能体。';
+    field.previousElementSibling.textContent=teacher?'教师端口令':'访问口令';
+    field.value='';$('authError').textContent='';submit.disabled=false;submit.textContent='连接';
+    $('authCancel').onclick=()=>finish(null);
+    dialog.oncancel=e=>{e.preventDefault();finish(null);};
+    $('authForm').onsubmit=async e=>{
+      e.preventDefault();if(checking)return;
+      const token=field.value.trim();if(!token){$('authError').textContent='请输入口令';return;}
+      checking=true;submit.disabled=true;submit.textContent='正在验证…';$('authError').textContent='';
+      try{
+        const r=await fetch(teacher?'/api/stats':'/api/health',{headers:{Authorization:'Bearer '+token}});
+        if(finished)return;
+        if(r.status===401){$('authError').textContent='口令不正确，请重新输入。';field.select();return;}
+        if(!r.ok){$('authError').textContent=r.status===503?'教师端暂未启用。':r.status===429?'请求较多，请稍后重试。':'连接失败，请稍后重试。';return;}
+        localStorage.setItem(key,token);finish(token);
+      }catch(error){if(!finished)$('authError').textContent='暂时无法连接服务，请确认服务已启动后重试。';}
+      finally{checking=false;if(!finished){submit.disabled=false;submit.textContent='连接';}}
+    };
+    dialog.showModal();field.focus();
+  }));
+  dialogQueue=pending.then(()=>{},()=>{});
+  return pending;
+}
+async function apiRequest(path, options={}){
+  const sentToken=localStorage.getItem('andrology_token') || '';
+  let r=await fetch(path,{...options,headers:authHeaders()});
+  if(r.status!==401 || authCancelled)return r;
+  const latest=localStorage.getItem('andrology_token') || '';
+  if(latest && latest!==sentToken)return fetch(path,{...options,headers:authHeaders()});
+  if(!accessRequest){
+    clearToken();
+    accessRequest=requestToken().then(token=>{authCancelled=!token;return token;}).finally(()=>{accessRequest=null;});
+  }
+  const token=await accessRequest;
+  if(token)r=await fetch(path,{...options,headers:authHeaders()});
+  return r;
+}
+function apiGet(path){return apiRequest(path);}
+function apiPost(path,body){return apiRequest(path,{method:'POST',body:JSON.stringify(body)});}
+let hist = [];
+const CHAT_SESSION_KEY = 'andrology_chat_v1';
+function saveChat(){
+  let total=0;
+  const recent=[];
+  for(let i=hist.length-1;i>=0&&recent.length<120;i--){
+    if(total+hist[i].content.length>256000)break;
+    recent.unshift(hist[i]);total+=hist[i].content.length;
+  }
+  hist=recent;
+  try{sessionStorage.setItem(CHAT_SESSION_KEY,JSON.stringify({history:hist,module:current?.id || null}));}
+  catch{toast('浏览器未能保存对话，刷新后可能无法恢复。');}
+}
+function restoreChat(){
+  try{
+    const saved=JSON.parse(sessionStorage.getItem(CHAT_SESSION_KEY) || 'null');
+    if(!saved || !Array.isArray(saved.history))return;
+    hist=saved.history.filter(m=>m&&['user','assistant'].includes(m.role)&&typeof m.content==='string').slice(-120);
+    if(!hist.length)return;
+    if(saved.module&&KB.some(m=>m.id===saved.module))selectModule(saved.module);
+    chatEl.innerHTML='';
+    hist.forEach(m=>{if(m.role==='user')addUser(m.content);else attachChatSources(addAssistant(m.content),m.sources);});
+  }catch{hist=[];}
+}
+function attachChatSources(bubble,sources){
+  if(!Array.isArray(sources)||!sources.length)return;
+  const strip=document.createElement('div');strip.className='citation-strip';
+  const urls=new Set();
+  sources.forEach(source=>{
+    const b=document.createElement('button');b.textContent='查看：'+source.title;
+    b.onclick=()=>{openKbPage();openKbDetail(source.id);};strip.append(b);
+    (source.references || []).forEach(ref=>{
+      if(urls.has(ref.url))return;urls.add(ref.url);
+      const a=document.createElement('a');a.href=safeUrl(ref.url);a.target='_blank';a.rel='noopener noreferrer';
+      a.textContent='原文：'+ref.title+' ↗';a.title=ref.status || '文档级参考，具体论点请核对原文';strip.append(a);
+    });
+  });bubble.append(strip);
+}
+
+/* 消息统一放到居中的 .thread 容器里，避免直接挂到全宽的 main.chat 上导致“聊着聊着占满全屏” */
+let thread = null;
+function threadEl(){
+  if(!thread || !thread.isConnected){
+    thread = document.createElement("div");
+    thread.className = "thread";
+    chatEl.appendChild(thread);
+  }
+  return thread;
+}
+
+function toast(msg){
+  const el = $("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove("show"), 1800);
+}
+
+/* ========== 知识库（全屏页） ========== */
+let kbCategory = '全部';
+let libraryError = '';
+const kbCategoryOrder=['全部','男科基础知识','指南与共识','基本手术','基础实验操作','技术与结果判读','文献与科研'];
+function shownDocuments(){
+  const q=$('kbSearch').value.trim().toLowerCase();
+  const phrases=q.split(/\s+/).filter(Boolean);
+  return KB.filter(d=>($('showEvidence').checked || d.kind!=='证据条目') && (kbCategory==='全部'||d.category===kbCategory) && phrases.every(w=>(d.title+' '+d.md+' '+d.short).toLowerCase().includes(w)));
+}
+function renderKb(){
+  const docs=shownDocuments();
+  $('kbGrid').replaceChildren();
+  docs.forEach(mod=>{
+    const card=document.createElement('button');card.className='kb-card';
+    card.innerHTML='<div class="card-meta"><span>'+esc(mod.category)+'</span><span>'+esc(mod.kind)+'</span></div>'+
+      '<span class="kb-card-name">'+esc(mod.short)+'</span><span class="kb-card-sub">'+esc(mod.summary || mod.title)+'</span>'+
+      '<div class="card-meta"><span>'+mod.characters.toLocaleString()+' 字符 · '+mod.outline.length+' 节</span><span>'+esc(mod.version)+'</span></div><span class="kb-card-sub">'+esc(mod.status)+'</span>';
+    card.onclick=()=>openKbDetail(mod.id);$('kbGrid').append(card);
+  });
+  $('kbTotal').textContent=KB.length;
+  $('kbDone').textContent=Object.keys(done).filter(k=>KB.some(m=>m.id===k)).length;
+  $('kbResultCount').textContent='显示 '+docs.length+' 篇 / 共 '+KB.length+' 篇资料';
+  $('kbEmpty').hidden=docs.length>0 || !!libraryError;
+  $('kbLoadError').hidden=!libraryError;$('kbLoadError').textContent=libraryError;
+  $('kbCategories').replaceChildren();
+  kbCategoryOrder.forEach(category=>{
+    const n=KB.filter(d=>(category==='全部'||d.category===category)&&($('showEvidence').checked||d.kind!=='证据条目')).length;
+    const b=document.createElement('button');b.className='category-tab';b.textContent=category+' '+n;
+    b.setAttribute('aria-pressed',String(kbCategory===category));b.onclick=()=>{kbCategory=category;renderKb();};$('kbCategories').append(b);
+  });
+}
+
+function renderLit(){
+  const list = $("litList");
+  list.innerHTML = "";
+  if(!LIT.length){
+    list.innerHTML = '<p style="color:var(--faint);font-size:13px">推荐阅读加载中…（离线时显示内置清单）</p>';
+    return;
+  }
+  LIT.forEach(l => {
+    const card = document.createElement("article");
+    card.className = "lit-card";
+    card.innerHTML =
+      '<div class="lc-top"><span class="lc-tag' + (l.guide ? " guide" : "") + '">' + esc(l.type) + '</span></div>' +
+      "<h4>" + esc(l.title) + "</h4>" +
+      '<div class="lc-src">' + esc(l.src) + "</div>" +
+      '<div class="lc-why">' + esc(l.why) + "</div>" +
+      '<a class="lc-link" href="' + esc(safeUrl(l.url)) + '" target="_blank" rel="noopener">打开原文 ↗</a>';
+    list.appendChild(card);
+  });
+}
+function openKbPage(){
+  renderKb();
+  renderLit();
+  showKbList();
+  $("kbPage").hidden = false;
+  $("kbScroll").scrollTop = 0;
+}
+function closeKbPage(){
+  $("kbPage").hidden = true;
+  if(location.hash.startsWith('#knowledge='))history.replaceState(null,'',location.pathname+location.search);
+}
+function showKbList(){
+  $("kbListView").hidden = false;
+  $("kbDetailView").hidden = true;
+  $("kbScroll").scrollTop = 0;
+}
+function openKbDetail(id){
+  const mod=KB.find(m=>m.id===id);if(!mod)return;
+  viewing=mod;
+  $('kbDetailTitle').textContent=mod.short;
+  $('kbDetailMeta').innerHTML='<span>'+esc(mod.kind)+'</span><span>'+esc(mod.version)+'</span><span>'+mod.characters.toLocaleString()+' 字符</span><span class="audit">'+esc(mod.status)+'</span>'+(mod.retrievable===false?'<span class="audit">仅查阅 · 不作为问答依据</span>':'');
+  $('kbContent').innerHTML=renderMd(mod.md);
+  $('kbToc').replaceChildren();
+  $('kbContent').querySelectorAll('h2,h3').forEach((h,i)=>{
+    h.id='section-'+i;const b=document.createElement('button');b.textContent=h.textContent;
+    if(h.tagName==='H3')b.style.paddingLeft='14px';b.onclick=()=>h.scrollIntoView({behavior:'smooth',block:'start'});$('kbToc').append(b);
+  });
+  $('kbSources').replaceChildren();const label=document.createElement('strong');label.textContent='来源与核对入口';$('kbSources').append(label);
+  if(!mod.sources.length){const p=document.createElement('p');p.textContent='本篇尚缺可直接打开的原文链接，详见正文的来源与审核说明。';$('kbSources').append(p);}
+  mod.sources.forEach(source=>{const a=document.createElement('a');a.href=safeUrl(source.url);a.target='_blank';a.rel='noopener noreferrer';a.textContent=source.title+' ↗';$('kbSources').append(a);const p=document.createElement('p');p.textContent=source.status || '文档登记的参考链接；具体论点请核对原文。';$('kbSources').append(p);});
+  $('kbStartBtn').disabled=mod.retrievable===false;
+  $('kbListView').hidden=true;$('kbDetailView').hidden=false;$('kbScroll').scrollTop=0;updateKbNav();
+  if(location.hash!=='#knowledge='+encodeURIComponent(id))history.replaceState(null,'','#knowledge='+encodeURIComponent(id));
+}
+
+function updateKbNav(){
+  if(!viewing) return;
+  const idx = KB.findIndex(m => m.id === viewing.id);
+  $("kbPrev").disabled = idx <= 0;
+  $("kbNext").disabled = idx >= KB.length - 1;
+}
+function kbNeighbor(dir){
+  if(!viewing) return;
+  const idx = KB.findIndex(m => m.id === viewing.id);
+  const n = KB[idx + dir];
+  if(n) openKbDetail(n.id);
+}
+function selectModule(id){
+  const mod = KB.find(m => m.id === id);
+  if(!mod) return;
+  current = mod;
+  $("modulePillLabel").textContent = "当前模块 · " + mod.short;
+  renderKb();
+}
+function markDone(){
+  if(!current) return;
+  done[current.id] = true;
+  const s = loadStore();
+  s.done = Object.assign({}, done);
+  saveStore(s);
+  renderKb();
+  apiPost("/api/learn", { type: "done", module: current.id }).catch(() => {});
+}
+
+$("modulesBtn").onclick = openKbPage;
+$("modulePill").onclick = openKbPage;
+$("kbBackHome").onclick = closeKbPage;
+$("kbDetailBack").onclick = showKbList;
+$("kbPrev").onclick = () => kbNeighbor(-1);
+$("kbNext").onclick = () => kbNeighbor(1);
+$("kbStartBtn").onclick = () => {
+  if(!viewing) return;
+  selectModule(viewing.id);
+  closeKbPage();
+  input.value = "请结合「" + viewing.short + "」整理核心要点，并标明资料来源与适用范围。";
+  input.focus();
+  input.style.height = "auto";
+  input.style.height = Math.min(input.scrollHeight, 180) + "px";
+};
+$("quizOpenBtn").onclick = openQuizPage;
+$("deepOpenBtn").onclick = openDeepPage;
+$("caseOpenBtn").onclick = () => { if(caseActive) endCase(); else if(current) startCase(current.id); else toast("请先在知识库选择模块"); };
+$("quizBack").onclick = closeQuizPage;
+$("wrongBtn").onclick = openWrongPage;
+$("wrongBack").onclick = closeWrongPage;
+$("deepBack").onclick = closeDeepPage;
+$("quizStart").onclick = startQuiz;
+$("quizSubmit").onclick = submitQuiz;
+$("quizAgain").onclick = openQuizPage;
+$("quizDoneBtn").onclick = openQuizPage;
+$("deepGoBtn").onclick = runDeep;
+$("teacherOpenBtn").onclick = openTeacherPage;
+$("teacherBack").onclick = () => { $("teacherPage").hidden = true; };
+$("kbCaseBtn").onclick = () => {
+  if(!viewing) return;
+  selectModule(viewing.id);
+  closeKbPage();
+  startCase(viewing.id);
+};
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape" && !$("kbPage").hidden) closeKbPage();
+  if(e.key === "Escape" && !$("quizPage").hidden) closeQuizPage();
+  if(e.key === "Escape" && !$("wrongPage").hidden) closeWrongPage();
+  if(e.key === "Escape" && !$("deepPage").hidden) closeDeepPage();
+  if(e.key === "Escape" && !$("teacherPage").hidden) $("teacherPage").hidden = true;
+});
+
+/* ========== 消息渲染（助手=整宽文档，用户=右侧轻气泡） ========== */
+function scrollToBottom(){
+  const go = () => { chatEl.scrollTop = chatEl.scrollHeight; };
+  go();
+  requestAnimationFrame(go);
+}
+function appendMsg(role, html){
+  const wrap = document.createElement("div");
+  wrap.className = "msg " + role;
+  if(role === "assistant"){
+    wrap.innerHTML = '<div class="aid"><span class="aid-badge">医</span><span class="aid-name">男科知识助手</span></div><div class="bubble">' + html + '</div>';
+  } else {
+    wrap.innerHTML = '<div class="bubble">' + html + '</div>';
+  }
+  threadEl().appendChild(wrap);
+  scrollToBottom();
+  return wrap.querySelector(".bubble");
+}
+function addUser(text){
+  appendMsg("user", esc(text).replace(/\n/g, "<br>"));
+}
+function addAssistant(md){
+  return appendMsg("assistant", renderMd(md));
+}
+function showTyping(){
+  const wrap = document.createElement("div");
+  wrap.className = "msg assistant";
+  wrap.id = "typing";
+  wrap.innerHTML = '<div class="aid"><span class="aid-badge">医</span><span class="aid-name">男科导师</span></div><div class="bubble"><span class="typing"><span></span><span></span><span></span></span></div>';
+  threadEl().appendChild(wrap);
+  scrollToBottom();
+}
+
+/* ========== 欢迎 / 空状态 ========== */
+function welcomeHTML(){
+  return '<div class="welcome">' +
+    '<div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>' +
+    '<h1>把男科知识，汇总在一起</h1>' +
+    '<p class="intro">浏览基础知识、指南、手术与实验方法，按主题查询，随时回到正文和来源。</p>' +
+    '<div class="cap-grid">' +
+      '<button class="cap" data-cap="知识库"><span class="cap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span><span class="cap-title">浏览知识库</span></button>' +
+      '<button class="cap" data-cap="文献"><span class="cap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span><span class="cap-title">联网查资料</span></button>' +
+      '<button class="cap" data-cap="精读"><span class="cap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span><span class="cap-title">精读文献</span></button>' +
+      '<button class="cap" data-cap="自测"><span class="cap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span><span class="cap-title">自测题目</span></button>' +
+    '</div>' +
+    '<div class="divider">或者直接问</div>' +
+    '<div class="chips">' +
+      '<span class="chip">WHO 第6版精液参考值是多少？</span>' +
+      '<span class="chip">无精子症的梗阻性与非梗阻性怎么区分？</span>' +
+      '<span class="chip">ED 为什么可能是心血管疾病的早期信号？</span>' +
+    '</div>' +
+  '</div>';
+}
+const CAP_PROMPTS = {
+  "讲解":"请整理当前资料「{m}」的要点与来源。",
+  "文献":"帮我找 3 篇「精索静脉曲张与男性不育」的综述或指南，按文献卡格式推荐。",
+  "精读":"帮我精读一篇文献：我粘贴标题或摘要后，请按背景→方法→结果→结论四段拆解，并解释关键术语。",
+  "自测":"基于当前模块「{m}」出 3 道选择题，我答完后你批改并讲解。"
+};
+function bindWelcome(){
+  chatEl.querySelectorAll(".cap").forEach(b => {
+    b.onclick = () => {
+      if(b.dataset.cap === "知识库"){ openKbPage(); return; }
+      if(b.dataset.cap === "文献"){ openOnline(); return; }
+      if(b.dataset.cap === "自测"){ openQuizPage(); return; }
+      if(b.dataset.cap === "精读"){ openDeepPage(); return; }
+      const tpl = CAP_PROMPTS[b.dataset.cap] || "";
+      const t = tpl.replace("{m}", current ? current.short : "解剖生理");
+      input.value = t;
+      input.focus();
+    };
+  });
+  chatEl.querySelectorAll(".chip").forEach(c => c.onclick = () => { input.value = c.textContent.trim(); send(); });
+}
+function resetChat(){
+  hist = [];
+  try{sessionStorage.removeItem(CHAT_SESSION_KEY);}catch{}
+  chatEl.innerHTML = "";
+  threadEl().innerHTML = welcomeHTML();
+  bindWelcome();
+  chatEl.scrollTop = 0;
+}
+
+/* ========== 发送 ========== */
+async function send(text){
+  if(thinking) return;
+  const t = (text || input.value).trim();
+  if(!t) return;
+  input.value = ""; input.style.height = "auto";
+  if(chatEl.querySelector(".welcome")) chatEl.innerHTML = "";
+  addUser(t);
+  if(caseActive){
+    showTyping();
+    thinking = true;
+    sendBtn.disabled = true;
+    try{
+      await sendCaseStep(t);
+    }catch(e){
+      document.getElementById("typing")?.remove();
+      addAssistant("**病例请求失败。**\n\n请检查网络后重试。");
+    }finally{
+      thinking = false;
+      sendBtn.disabled = false;
+      input.focus();
+    }
+    return;
+  }
+  showTyping();
+  thinking = true;
+  sendBtn.disabled = true;
+  try{
+    const r = await apiPost("/api/chat", { message: t, module: current ? current.id : undefined, history: hist.slice(-120) });
+    const data = await r.json();
+    document.getElementById("typing")?.remove();
+    if(data.error){
+      const reason=/接口错误 402|insufficient.balance/i.test(data.error)
+        ? '模型服务账户余额不足，请充值或更换可用的模型服务密钥后重试。本地知识库仍可正常浏览。'
+        : String(data.error);
+      addAssistant("**暂时无法生成回答。**\n\n" + reason);
+    } else {
+      const bubble=addAssistant(data.reply || '（没有回复）');
+      attachChatSources(bubble,data.sources);
+      hist.push({ role: "user", content: t });
+      hist.push({ role: "assistant", content: data.reply || "", sources: data.sources || [] });
+      saveChat();
+      if(current) markDone();
+    }
+  }catch(e){
+    document.getElementById("typing")?.remove();
+    addAssistant("**无法连接后端。**\n\n请先启动服务：在项目目录运行 `node server/server.mjs`。");
+  }finally{
+    thinking = false;
+    sendBtn.disabled = false;
+    input.focus();
+  }
+}
+sendBtn.onclick = () => send();
+$("resetBtn").onclick = () => resetChat();
+input.addEventListener("keydown", e => {
+  if(e.key === "Enter" && !e.shiftKey){ e.preventDefault(); send(); }
+});
+input.addEventListener("input", () => {
+  input.style.height = "auto";
+  input.style.height = Math.min(input.scrollHeight, 180) + "px";
+});
+
+/* 允许把滚轮落在底部输入卡/提示行上时，仍能滚动聊天区（修复 body overflow:hidden 导致的滚轮失效） */
+document.querySelector(".composer").addEventListener("wheel", e => {
+  const max = chatEl.scrollHeight - chatEl.clientHeight;
+  if (max <= 0) return;
+  e.preventDefault();
+  const step = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+  chatEl.scrollTop = Math.min(Math.max(chatEl.scrollTop + step, 0), max);
+}, { passive: false });
+
+/* ========== 学习数据（localStorage）：进度 / 错题本 / SM-2 ========== */
+const LS_KEY = "andrology_learning";
+function loadStore(){
+  try{ const s = JSON.parse(localStorage.getItem(LS_KEY) || "null"); if(s && Array.isArray(s.wrong)) return s; }catch(e){}
+  return { wrong: [], done: {}, quiz: {} };
+}
+function saveStore(s){ localStorage.setItem(LS_KEY, JSON.stringify(s)); }
+function refreshWrongCount(){
+  const el = $("wrongCount");
+  if(el) el.textContent = loadStore().wrong.length;
+}
+function addWrong(q){
+  const s = loadStore();
+  const idx = s.wrong.findIndex(w => w.stem === q.stem && w.module === q.module);
+  if(idx >= 0){
+    const w = s.wrong[idx];
+    w.wrongCount++; w.last = q.yourChoice || ""; w.due = 0;
+  } else {
+    s.wrong.push({ module:q.module, stem:q.stem, options:q.options, answer:q.rightChoice,
+      explanation:q.explanation, reps:0, interval:0, ease:2.5, due:0, wrongCount:1, last:q.yourChoice || "" });
+  }
+  saveStore(s); refreshWrongCount();
+}
+function sm2Update(item, correct){
+  if(correct){
+    item.reps++;
+    item.interval = item.reps === 1 ? 1 : (item.reps === 2 ? 3 : Math.round(item.interval * item.ease));
+    item.ease = Math.max(1.3, item.ease + 0.1);
+  } else {
+    item.reps = 0; item.interval = 0; item.ease = Math.max(1.3, item.ease - 0.2);
+  }
+  item.due = Date.now() + item.interval * 86400000;
+}
+function dueLabel(item){
+  if(item.due <= Date.now()) return "待复习";
+  const d = Math.ceil((item.due - Date.now()) / 86400000);
+  return d + " 天后";
+}
+
+/* ========== 自测 ========== */
+let quizState = null; // {quizId, questions, answers:{}}
+function openQuizPage(){
+  const sel = $("quizModule");
+  if(sel.options.length === 0){
+    KB.filter(m=>m.retrievable!==false).forEach(m => {
+      const o = document.createElement("option");
+      o.value = m.id; o.textContent = m.short + "（" + m.id + "）";
+      sel.appendChild(o);
+    });
+  }
+  if(current && [...sel.options].some(o => o.value === current.id)) sel.value = current.id;
+  quizState = null;
+  $("quizFormView").hidden = false;
+  $("quizQView").hidden = true;
+  $("quizRView").hidden = true;
+  $("quizPage").hidden = false;
+  $("quizScroll").scrollTop = 0;
+  refreshWrongCount();
+}
+function closeQuizPage(){ $("quizPage").hidden = true; }
+async function startQuiz(){
+  if(!$("quizModule").value){ toast("知识库还没加载好，请稍等再试"); return; }
+  const btn = $("quizStart");
+  btn.disabled = true; btn.textContent = "出题中…";
+  try{
+    const r = await apiPost("/api/quiz/generate", { module: $("quizModule").value, count: Number($("quizCount").value) || 5 });
+    const d = await r.json();
+    if(d.error){ toast(d.error); return; }
+    quizState = { quizId: d.quizId, questions: d.questions, answers: {} };
+    renderQuizQ();
+  }catch(e){
+    toast("出题失败：" + (e.message || e));
+  }finally{
+    btn.disabled = false; btn.textContent = "开始出题";
+  }
+}
+function renderQuizQ(){
+  $("quizFormView").hidden = true;
+  $("quizRView").hidden = true;
+  const box = $("quizQList"); box.innerHTML = "";
+  quizState.questions.forEach(q => {
+    const card = document.createElement("div");
+    card.className = "quiz-q";
+    card.innerHTML = '<div class="qq-head">第 ' + q.id + ' 题' + (q.topic ? ' <span class="qq-topic">' + esc(q.topic) + '</span>' : '') + '</div>' +
+      '<div class="qq-stem">' + esc(q.stem) + '</div>';
+    const opts = document.createElement("div");
+    opts.className = "qq-opts";
+    ["A","B","C","D"].forEach(k => {
+      const v = q.options[k];
+      if(v == null) return;
+      const b = document.createElement("button");
+      b.className = "opt-row";
+      b.dataset.q = q.id; b.dataset.k = k;
+      b.innerHTML = '<span class="opt-key">' + k + '</span><span class="opt-text">' + esc(v) + '</span>';
+      b.onclick = () => {
+        opts.querySelectorAll(".opt-row").forEach(x => x.classList.remove("selected"));
+        b.classList.add("selected");
+        quizState.answers[q.id] = k;
+      };
+      opts.appendChild(b);
+    });
+    card.appendChild(opts);
+    box.appendChild(card);
+  });
+  $("quizQView").hidden = false;
+  $("quizScroll").scrollTop = 0;
+}
+async function submitQuiz(){
+  const answers = quizState.answers;
+  const missing = quizState.questions.filter(q => !answers[q.id]).length;
+  if(missing){ toast("还有 " + missing + " 题未作答"); return; }
+  const btn = $("quizSubmit");
+  btn.disabled = true;
+  try{
+    const r = await apiPost("/api/quiz/submit", { quizId: quizState.quizId, answers });
+    const d = await r.json();
+    if(d.error){ toast(d.error); return; }
+    showQuizResult(d);
+  }catch(e){
+    toast("判分失败：" + (e.message || e));
+  }finally{
+    btn.disabled = false;
+  }
+}
+function showQuizResult(d){
+  const s = loadStore();
+  s.quiz[d.module] = { best: Math.max((s.quiz[d.module] && s.quiz[d.module].best) || 0, d.score), total: d.total };
+  saveStore(s);
+  const box = $("quizRList"); box.innerHTML = "";
+  const head = document.createElement("div");
+  head.className = "score-badge " + (d.score === d.total ? "all" : (d.score >= d.total * 0.6 ? "good" : "low"));
+  head.innerHTML = "得分 <b>" + d.score + "</b> / " + d.total;
+  box.appendChild(head);
+  d.results.forEach(q => {
+    const card = document.createElement("div");
+    card.className = "quiz-q result";
+    let optsHtml = "";
+    ["A","B","C","D"].forEach(k => {
+      if(q.options[k] == null) return;
+      optsHtml += '<div class="opt-row ' + (k === q.rightChoice ? "correct" : (k === q.yourChoice ? "wrong" : "")) + '"><span class="opt-key">' + k + '</span><span class="opt-text">' + esc(q.options[k]) + '</span>' +
+        (k === q.rightChoice ? '<span class="opt-tag">正确答案</span>' : (k === q.yourChoice ? '<span class="opt-tag">你的选择</span>' : '')) + '</div>';
+    });
+    card.innerHTML = '<div class="qq-head">第 ' + q.id + ' 题 · ' + (q.correct ? '<span class="ok">✓ 答对</span>' : '<span class="no">✗ 答错</span>') + '</div>' +
+      '<div class="qq-stem">' + esc(q.stem) + '</div>' + optsHtml +
+      '<div class="qq-explain"><b>讲解：</b>' + esc(q.explanation) + '</div>';
+    box.appendChild(card);
+    if(!q.correct) addWrong(q);
+  });
+  $("quizQView").hidden = true;
+  $("quizRView").hidden = false;
+  $("quizScroll").scrollTop = 0;
+}
+
+/* ========== 错题本 + SM-2 复习 ========== */
+let reviewIdx = -1;
+function openWrongPage(){
+  renderWrongList();
+  $("wrongPage").hidden = false;
+  $("wrongScroll").scrollTop = 0;
+}
+function closeWrongPage(){ $("wrongPage").hidden = true; }
+function renderWrongList(){
+  const s = loadStore();
+  const list = $("wrongList"); list.innerHTML = "";
+  const due = s.wrong.filter(w => w.due <= Date.now()).length;
+  $("wrongDue").textContent = due;
+  if(!s.wrong.length){
+    list.innerHTML = '<p style="color:var(--faint);font-size:13px">还没有错题。做一次自测，答错的题会自动收进这里，并按间隔重复安排复习。</p>';
+    return;
+  }
+  s.wrong.slice().sort((a,b) => a.due - b.due).forEach((w, i) => {
+    const card = document.createElement("div");
+    card.className = "wrong-item";
+    const mod = KB.find(m => m.id === w.module);
+    card.innerHTML =
+      '<div class="wi-top"><span class="wi-mod">' + esc(mod ? mod.short : w.module) + '</span><span class="wi-due ' + (w.due <= Date.now() ? "hot" : "") + '">' + dueLabel(w) + '</span></div>' +
+      '<div class="wi-stem">' + esc(w.stem) + '</div>' +
+      '<div class="wi-meta">错 ' + w.wrongCount + ' 次' + (w.last ? ' · 上次选 ' + w.last : '') + (w.reps ? ' · 已连续答对 ' + w.reps + ' 次' : '') + '</div>';
+    const btn = document.createElement("button");
+    btn.className = "btn";
+    btn.textContent = "开始复习";
+    btn.onclick = () => startReview(i);
+    card.appendChild(btn);
+    list.appendChild(card);
+  });
+}
+function startReview(i){
+  const s = loadStore();
+  reviewIdx = i;
+  const w = s.wrong[i];
+  if(!w) return;
+  $("wrongList").hidden = true;
+  const box = $("reviewBox"); box.hidden = false; box.innerHTML = "";
+  const q = document.createElement("div");
+  q.className = "quiz-q";
+  q.innerHTML = '<div class="qq-head">错题复习</div><div class="qq-stem">' + esc(w.stem) + '</div>';
+  const opts = document.createElement("div"); opts.className = "qq-opts";
+  ["A","B","C","D"].forEach(k => {
+    if(w.options[k] == null) return;
+    const b = document.createElement("button");
+    b.className = "opt-row";
+    b.innerHTML = '<span class="opt-key">' + k + '</span><span class="opt-text">' + esc(w.options[k]) + '</span>';
+    b.onclick = () => reviewAnswer(w, k);
+    opts.appendChild(b);
+  });
+  q.appendChild(opts);
+  box.appendChild(q);
+}
+function reviewAnswer(w, k){
+  const s = loadStore();
+  const correct = k === w.answer;
+  sm2Update(w, correct);
+  saveStore(s);
+  const box = $("reviewBox");
+  box.querySelectorAll(".opt-row").forEach(x => { x.disabled = true; if(x.textContent.indexOf(k) === 1) x.classList.add(correct ? "selected" : "wrong"); });
+  const fb = document.createElement("div");
+  fb.className = "qq-explain";
+  fb.innerHTML = (correct ? '<b>✓ 答对了</b>，' : '<b>✗ 正确答案 ' + esc(w.answer) + '</b>，') + '讲解：' + esc(w.explanation) + '<br>下次复习：' + dueLabel(w);
+  box.appendChild(fb);
+  const next = document.createElement("button");
+  next.className = "btn primary";
+  next.textContent = "继续";
+  next.onclick = () => {
+    $("wrongList").hidden = false;
+    $("reviewBox").hidden = true;
+    $("reviewBox").innerHTML = "";
+    renderWrongList();
+  };
+  box.appendChild(next);
+}
+
+/* ========== 文献精读 ========== */
+function openDeepPage(){
+  $("deepPage").hidden = false;
+  $("deepResult").hidden = true;
+  $("deepScroll").scrollTop = 0;
+}
+function closeDeepPage(){ $("deepPage").hidden = true; }
+async function runDeep(){
+  const text = $("deepText").value.trim();
+  if(!text){ toast("请粘贴文献标题/摘要/片段"); return; }
+  const btn = $("deepGoBtn");
+  btn.disabled = true; btn.textContent = "精读中…";
+  try{
+    const r = await apiPost("/api/reading/deep", { text });
+    const d = await r.json();
+    if(d.error){ toast(d.error); return; }
+    const box = $("deepResult");
+    const sec = (t, v) => v ? '<h3 class="kb-sec">' + t + '</h3><div class="kb-md">' + renderMd(String(v)) + '</div>' : "";
+    let html = sec("背景", d.background) + sec("方法", d.methods) + sec("结果", d.results) + sec("结论", d.conclusion);
+    if(Array.isArray(d.terms) && d.terms.length){
+      html += '<h3 class="kb-sec">术语</h3><div class="kb-md"><ul>' + d.terms.map(t => '<li><b>' + esc(t.term) + '</b>：' + esc(t.explain) + '</li>').join("") + '</ul></div>';
+    }
+    if(Array.isArray(d.points) && d.points.length){
+      html += '<h3 class="kb-sec">学习要点</h3><div class="kb-md"><ul>' + d.points.map(p => '<li>' + esc(p) + '</li>').join("") + '</ul></div>';
+    }
+    if(Array.isArray(d.critical) && d.critical.length){
+      html += '<h3 class="kb-sec">批判性阅读提示</h3><div class="kb-md"><ul>' + d.critical.map(p => '<li>' + esc(p) + '</li>').join("") + '</ul></div>';
+    }
+    box.innerHTML = html || '<p style="color:var(--faint)">（未解析到内容）</p>';
+    box.hidden = false;
+    $("deepScroll").scrollTop = 0;
+  }catch(e){
+    toast("精读失败：" + (e.message || e));
+  }finally{
+    btn.disabled = false; btn.textContent = "开始精读";
+  }
+}
+
+/* ========== 病例教学（P2） ========== */
+let caseActive = null; // {id, title, step}
+function updateCaseBanner(){
+  const b = $("caseBanner");
+  if(caseActive){
+    b.hidden = false;
+    b.innerHTML = '<span>🧑‍⚕️ 病例练习中：' + esc(caseActive.title) + ' · 第 ' + caseActive.step + ' 步</span><button class="btn" id="caseEndBtn">结束病例</button>';
+    $("caseEndBtn").onclick = () => endCase();
+  } else {
+    b.hidden = true;
+  }
+}
+async function startCase(moduleId){
+  const r = await apiPost("/api/case/start", { module: moduleId });
+  const d = await r.json();
+  if(d.error){ toast(d.error); return; }
+  caseActive = { id: d.caseId, title: d.title, step: 1, module: d.module || "" };
+  if(chatEl.querySelector(".welcome")) chatEl.innerHTML = "";
+  let html = "**🧑‍⚕️ 病例教学：" + d.title + "**\n\n" +
+    "**场景**：" + d.setting + "｜**患者**：" + d.patient + "\n\n" +
+    "**现病史**：" + d.history + "\n\n**查体**：" + d.exam + "\n\n**检查**：" + d.data + "\n\n" +
+    "**问题（第 1 步）**：" + d.question;
+  if(d.hint) html += "\n\n> 💡 提示：" + d.hint;
+  addAssistant(html);
+  updateCaseBanner();
+}
+function endCase(){
+  if(caseActive){
+    addAssistant("已结束病例练习。");
+    caseActive = null;
+    updateCaseBanner();
+  }
+}
+async function sendCaseStep(text){
+  const r = await apiPost("/api/case/step", { caseId: caseActive.id, answer: text });
+  const d = await r.json();
+  document.getElementById("typing")?.remove();
+  if(d.error){ addAssistant("**病例出错了。**\n\n" + d.error); endCase(); return; }
+  let html = d.feedback;
+  if(d.done){
+    apiPost("/api/learn", { type: "case", module: caseActive.module || "" }).catch(() => {});
+    caseActive = null;
+    html += "\n\n**🧑‍⚕️ 病例总结**\n\n" + (d.summary || "");
+    updateCaseBanner();
+  } else {
+    caseActive.step = d.step;
+    html += "\n\n**问题（第 " + d.step + " 步）**：" + d.question;
+    if(d.hint) html += "\n\n> 💡 提示：" + d.hint;
+    updateCaseBanner();
+  }
+  addAssistant(html);
+}
+
+/* ========== 教师端 ========== */
+async function teacherToken(){
+  return localStorage.getItem("andrology_tkey") || await requestToken(true);
+}
+function clearTKey(){ localStorage.removeItem("andrology_tkey"); }
+function modShort(id){ const m = KB.find(x => x.id === id); return m ? m.short : id; }
+async function openTeacherPage(){
+  const tk = await teacherToken();
+  if(!tk){ toast("需要教师口令"); return; }
+  $("teacherPage").hidden = false;
+  $("teacherStats").innerHTML = '<p style="color:var(--faint);font-size:13px">加载中…</p>';
+  $("teacherScroll").scrollTop = 0;
+  const ok = await loadStats(tk);
+  if(!ok) $("teacherPage").hidden = true;
+}
+async function loadStats(tk){
+  try{
+    const r = await fetch("/api/stats", { headers: { "Authorization": "Bearer " + tk } });
+    if(r.status === 401){
+      clearTKey();
+      const nt = await requestToken(true);
+      if(nt){ localStorage.setItem("andrology_tkey", nt); return loadStats(nt); }
+      return false;
+    }
+    if(r.status === 503){ toast("教师端未启用：.env 未配置 TEACHER_TOKEN"); return false; }
+    const d = await r.json();
+    renderStats(d);
+    return true;
+  }catch(e){ toast("加载失败：" + (e.message || e)); return false; }
+}
+function renderStats(d){
+  $("teacherUpdated").textContent = "更新于 " + new Date(d.updatedAt).toLocaleTimeString();
+  const cards = [["学生数", d.students], ["测验次数", d.quizzes], ["聊天消息", d.chats], ["病例完成", d.cases]];
+  let html = '<div class="stat-cards">' + cards.map(c => '<div class="stat-card"><div class="sc-num">' + c[1] + '</div><div class="sc-label">' + c[0] + '</div></div>').join('') + '</div>';
+  html += '<h2 class="kb-sec">模块掌握度</h2>';
+  if(!d.modules.length){ html += '<p style="color:var(--faint);font-size:13px">暂无测验数据。</p>'; }
+  else {
+    html += '<div class="md-table"><table><thead><tr><th>模块</th><th>次数</th><th>平均正确率</th><th>最高分</th><th>错题数</th></tr></thead><tbody>';
+    d.modules.forEach(m => {
+      html += '<tr><td>' + esc(modShort(m.module)) + '</td><td>' + m.attempts + '</td><td>' + m.avgPct + '%</td><td>' + m.best + '</td><td>' + m.wrong + '</td></tr>';
+    });
+    html += '</tbody></table></div>';
+  }
+  html += '<h2 class="kb-sec">高频错题 TOP10</h2>';
+  if(!d.topWrong.length){ html += '<p style="color:var(--faint);font-size:13px">暂无错题记录。</p>'; }
+  else {
+    d.topWrong.forEach((w, i) => {
+      html += '<div class="wrong-item"><div class="wi-top"><span class="wi-mod">#' + (i + 1) + '</span><span class="wi-due hot">' + w.count + ' 人答错</span></div><div class="wi-stem">' + esc(w.stem) + '</div></div>';
+    });
+  }
+  html += '<h2 class="kb-sec">活跃学生 TOP10</h2>';
+  if(!d.activeStudents.length){ html += '<p style="color:var(--faint);font-size:13px">暂无学生活动。</p>'; }
+  else {
+    html += '<div class="md-table"><table><thead><tr><th>学生</th><th>测验</th><th>消息</th><th>病例</th></tr></thead><tbody>';
+    d.activeStudents.forEach(s => {
+      html += '<tr><td>' + esc(s.id) + '</td><td>' + s.quiz + '</td><td>' + s.chat + '</td><td>' + s.cases + '</td></tr>';
+    });
+    html += '</tbody></table></div>';
+  }
+  $("teacherStats").innerHTML = html;
+}
+
+/* ========== 启动 ========== */
+async function loadKB(){
+  try{
+    const r=await apiGet('/api/modules');if(r.status===401)throw new Error('尚未验证访问口令');if(!r.ok)throw new Error('资料服务返回 '+r.status);
+    const list=await r.json();if(!Array.isArray(list)||!list.length)throw new Error('资料库为空');
+    KB=list.map(m=>({...m,md:m.content,sub:m.summary || '',outline:m.outline || [],characters:m.characters || m.content.length,sources:m.sources || []}));
+    libraryError='';$('connectionStatus').textContent='已连接 · '+KB.length+' 篇资料';
+  }catch(e){
+    KB=[];libraryError='无法加载当前知识库：'+e.message+'。请确认服务已启动和访问口令正确，然后点击“重新连接”。';
+    $('connectionStatus').textContent='知识库未连接';
+  }
+  $('reconnectBtn').hidden=!libraryError;
+}
+
+async function loadLit(){
+  try{
+    const r = await apiGet("/api/reading");
+    if(r.ok){
+      const data = await r.json();
+      const req = (data.required || []).map(x => ({
+        title: x.title, src: x.source || "", type: x.type || "必读", guide:false,
+        why: x.reason || x.points || "", url: x.url || ""
+      }));
+      const gd = (data.guidelines || []).map(x => ({
+        title: x.title, src: x.publisher || "", type: "指南", guide:true,
+        why: x.topic || "", url: x.url || ""
+      }));
+      LIT = [...gd, ...req];
+      if(!$("kbPage").hidden) renderLit();
+      return;
+    }
+  }catch(e){ /* 离线用内嵌 */ }
+  LIT = [];
+  if(!$("kbPage").hidden) renderLit();
+}
+async function boot(){
+  $('onlineSince').max=String(new Date().getUTCFullYear());
+  await loadKB();
+  await loadLit();
+  const s0 = loadStore();
+  done = Object.assign({}, s0.done);
+  refreshWrongCount();
+  current = null;
+  $("modulePillLabel").textContent = "浏览知识库 / 选择资料";
+  chatEl.innerHTML = "";
+  threadEl().innerHTML = welcomeHTML();
+  bindWelcome();
+  restoreChat();
+  const id=new URLSearchParams(location.hash.slice(1)).get('knowledge');if(id&&KB.some(m=>m.id===id)){openKbPage();openKbDetail(id);}
+}
+let onlineSeq=0;
+async function openOnline(){
+  $('onlinePage').hidden=false;
+  if(!$('onlineQuery').value && $('kbSearch').value)$('onlineQuery').value=$('kbSearch').value;
+  if(!$('officialResources').children.length){
+    try{const r=await apiGet('/api/resources');if(!r.ok)throw new Error('来源目录暂不可用');const data=await r.json();
+      (data.items || []).forEach(item=>{const card=document.createElement('article');card.className='result-card';
+        card.innerHTML='<div class="card-meta"><span>'+esc(item.category)+'</span><span>'+esc(item.status)+'</span></div><h3><a href="'+esc(safeUrl(item.url))+'" target="_blank" rel="noopener noreferrer">'+esc(item.title)+' ↗</a></h3><p>'+esc(item.version)+' · '+esc(item.note)+'</p>';
+        $('officialResources').append(card);});
+    }catch(e){$('officialResources').textContent=e.message;}
+  }
+  $('onlineQuery').focus();
+}
+async function runOnline(e){
+  e.preventDefault();const query=$('onlineQuery').value.trim();if(!query)return;
+  const seq=++onlineSeq;const btn=$('onlineSubmit');btn.disabled=true;btn.textContent='检索中…';
+  $('onlineStatus').textContent='正在检索 Europe PMC…';$('onlineResults').replaceChildren();
+  try{
+    const params=new URLSearchParams({q:query,max:'8',sort:$('onlineSort').value});if($('onlineSince').value)params.set('since',$('onlineSince').value);
+    const r=await apiGet('/api/literature?'+params);const data=await r.json();if(!r.ok||data.error)throw new Error(data.error || '检索失败');if(seq!==onlineSeq)return;
+    $('onlineStatus').textContent='检索式：'+data.executedQuery+' · 共 '+data.hitCount+' 条，展示 '+data.items.length+' 条。摘要来自数据库，未自动审阅全文。';
+    data.items.forEach(item=>{const card=document.createElement('article');card.className='result-card';
+      card.innerHTML='<div class="card-meta"><span>'+esc(item.year)+'</span><span>'+esc(item.journal)+'</span>'+(item.openAccess?'<span>开放获取</span>':'')+'</div><h3><a href="'+esc(safeUrl(item.url))+'" target="_blank" rel="noopener noreferrer">'+esc(item.title)+'</a></h3><p>'+esc(item.authors)+'</p><p>PMID '+esc(item.pmid || '未提供')+' · DOI '+esc(item.doi || '未提供')+'</p>';
+      const details=document.createElement('details');const summary=document.createElement('summary');summary.textContent=item.abstract?'查看摘要':'该条目未提供摘要';details.append(summary);
+      const p=document.createElement('p');p.textContent=item.abstract || '请打开原文链接核对。';details.append(p);card.append(details);
+      if(item.abstract){const read=document.createElement('button');read.className='btn';read.textContent='用此摘要精读';read.onclick=()=>{$('onlinePage').hidden=true;openDeepPage();$('deepText').value=(item.title+'\n来源：'+item.url+'\n\n'+item.abstract).slice(0,6000);};card.append(read);}
+      $('onlineResults').append(card);
+    });
+    if(!data.items.length)$('onlineResults').textContent='没有命中。请减少限定词或使用英文关键词。';
+  }catch(error){$('onlineStatus').textContent='联网检索暂不可用：'+error.message+'。本地知识库仍可浏览；也可使用下方官方来源入口。';}
+  finally{if(seq===onlineSeq){btn.disabled=false;btn.textContent='检索文献';}}
+}
+$('kbSearch').addEventListener('input',renderKb);
+$('showEvidence').addEventListener('change',renderKb);
+$('onlineOpenBtn').onclick=openOnline;
+$('onlineBack').onclick=()=>{$('onlinePage').hidden=true;};
+$('onlineForm').onsubmit=runOnline;
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$('onlinePage').hidden=true;});
+document.addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;const href=a.getAttribute('href') || '';if(!/^\/?#knowledge=/.test(href))return;e.preventDefault();const id=new URLSearchParams(href.slice(href.indexOf('#')+1)).get('knowledge');if(KB.some(m=>m.id===id)){openKbPage();openKbDetail(id);}});
+$('reconnectBtn').onclick=async()=>{authCancelled=false;await loadKB();await loadLit();if(!$('kbPage').hidden)renderKb();};
+boot();
+</script>
+</body>
+</html>

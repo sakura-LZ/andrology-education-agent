@@ -1,0 +1,249 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-11-23",
+  "base": {
+    "map": {
+      "short": "知识导航"
+    },
+    "m8": {
+      "status": "来源整理 · 待专业复核",
+      "version": "2026-11-22"
+    },
+    "m9": {
+      "status": "概念与流程扩写 · 待专业复核",
+      "version": "2026-11-23",
+      "summary": "逐项解释 IUI、IVF、ICSI 与 PGT 的概念、流程、每步目的及治疗结局。"
+    },
+    "lab_basics": {
+      "category": "基础实验操作",
+      "short": "基础实验操作",
+      "version": "2026-11-22",
+      "status": "方法框架初稿 · 待实验室复核",
+      "summary": "实验总览：样本、WB、qPCR、免疫荧光、细胞培养与流式；各技术另有详解。"
+    },
+    "interpretation": {
+      "category": "技术与结果判读",
+      "short": "实验与图表判读",
+      "version": "2026-11-23",
+      "status": "方法与算例解释稿 · 待专业复核"
+    },
+    "guidelines": {
+      "category": "指南与共识",
+      "short": "指南与共识导航",
+      "version": "2026-11-22",
+      "status": "EAU正文与WHO书目已核对 · AUA待复核"
+    },
+    "lab_western_blot": {
+      "category": "基础实验操作",
+      "short": "Western blot 详解",
+      "summary": "样本处理、电泳、转膜、封闭、抗体、成像与灰度分析，逐步解释原因。",
+      "version": "2026-11-22",
+      "status": "官方规程正文已读取 · 中文解释待复核"
+    },
+    "lab_qpcr": {
+      "category": "基础实验操作",
+      "short": "RT-qPCR 与 MIQE 2.0",
+      "summary": "核酸、逆转录、引物、Cq、对照、效率、归一化与新版规范摘要。",
+      "version": "2026-11-22",
+      "status": "新版书目与摘要已核对 · 中文解释待复核"
+    },
+    "lab_cell_culture": {
+      "category": "基础实验操作",
+      "short": "细胞培养详解",
+      "summary": "细胞身份、复苏、换液、传代、冻存与污染控制。",
+      "version": "2026-11-22",
+      "status": "官方规程正文已读取 · 中文解释待复核"
+    },
+    "lab_immunofluorescence": {
+      "category": "基础实验操作",
+      "short": "免疫荧光详解",
+      "summary": "从固定、通透和抗体染色讲到成像、共定位与对照。",
+      "status": "官方规程正文已读取 · 中文解释待复核",
+      "version": "2026-11-23"
+    },
+    "surgery_varicocele": {
+      "category": "基本手术",
+      "short": "精索静脉曲张手术详解",
+      "summary": "解释显微、腹腔镜、开放和介入方法的概念、步骤及再次处理。",
+      "status": "概念与流程初稿 · 待专业复核",
+      "version": "2026-11-23"
+    },
+    "surgery_sperm_retrieval": {
+      "category": "基本手术",
+      "short": "外科取精五种方法详解",
+      "summary": "逐一解释 PESA、MESA、TESA、TESE、micro-TESE 的名称、部位、流程与配合。",
+      "status": "概念与流程初稿 · 待专业复核",
+      "version": "2026-11-23"
+    },
+    "surgery_reconstruction": {
+      "category": "基本手术",
+      "short": "复通、假体与常见操作",
+      "summary": "输精管重建、假体部件与植入逻辑、环切、活检及再次/分期手术。",
+      "status": "概念与流程初稿 · 待专业复核",
+      "version": "2026-11-23"
+    },
+    "lab_flow_cytometry": {
+      "category": "基础实验操作",
+      "short": "流式细胞术详解",
+      "summary": "解释事件、散射、门控、父群体、补偿与FMO，串联基本流程、对照和结果判读。",
+      "status": "概念与流程初稿 · 专项指南书目已核对，中文解释待实验室复核",
+      "version": "2026-11-23",
+      "sources": [
+        {
+          "title": "Cossarizza et al. 流式细胞术与细胞分选指南，第3版（2021），PMID 34910301",
+          "url": "https://doi.org/10.1002/eji.202170126",
+          "status": "Europe PMC书目与摘要已核对；全文未在本轮读取，中文解释待实验室复核"
+        },
+        {
+          "title": "PubMed PMID 34910301",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34910301/",
+          "status": "Europe PMC书目与摘要已核对；全文未在本轮读取，中文解释待实验室复核"
+        },
+        {
+          "title": "开放全文入口 PMC11115438",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11115438/",
+          "status": "Europe PMC书目与摘要已核对；全文未在本轮读取，中文解释待实验室复核"
+        }
+      ]
+    },
+    "andrology_foundations": {
+      "category": "男科基础知识",
+      "short": "男科基础概念详解",
+      "summary": "器官、生精、成熟、激素反馈、性功能与检查之间的联系。",
+      "status": "基础解释初稿 · 待专业复核",
+      "version": "2026-11-23"
+    }
+  },
+  "documents": [
+    {
+      "id": "topic-metabolic",
+      "file": "output/男科教育智能体/02_模块正文/M2_环境与代谢因素_v2026-10-11.md",
+      "category": "男科基础知识",
+      "kind": "专题正文",
+      "version": "2026-10-12（历史整理）",
+      "status": "历史证据整理 · 待专业复核",
+      "retrievable": true,
+      "summary": "肥胖、糖代谢、环境暴露与男性生育力的研究证据"
+    },
+    {
+      "id": "topic-vc",
+      "file": "output/男科教育智能体/02_模块正文/M8-VC_精索静脉曲张_v2026-10-12.md",
+      "category": "基本手术",
+      "kind": "专题正文",
+      "version": "2026-10-12（历史整理）",
+      "status": "历史证据整理 · 待专业复核",
+      "retrievable": true,
+      "summary": "热应激、氧化应激及曲张病理生理机制"
+    },
+    {
+      "id": "topic-torsion",
+      "file": "output/男科教育智能体/02_模块正文/M8-TT_睾丸扭转_阴囊急症_v2026-10-12.md",
+      "category": "基本手术",
+      "kind": "专题正文",
+      "version": "2026-10-12（历史整理）",
+      "status": "历史证据整理 · 待专业复核",
+      "retrievable": true,
+      "summary": "睾丸扭转机制、临床研究与证据边界"
+    },
+    {
+      "id": "topic-art",
+      "file": "output/男科教育智能体/02_模块正文/M9-ART_男性因素对辅助生殖结局的影响_v2026-10-12.md",
+      "category": "男科基础知识",
+      "kind": "专题正文",
+      "version": "2026-10-12（历史整理）",
+      "status": "历史证据整理 · 待专业复核",
+      "retrievable": true,
+      "summary": "男性代谢因素与辅助生殖结局，区分相关与因果"
+    },
+    {
+      "id": "evidence-m2",
+      "file": "output/男科教育智能体/01_条目库/M2_病因证据_v2026-09-14.md",
+      "category": "男科基础知识",
+      "kind": "证据条目",
+      "version": "历史整理（2026-09/10）",
+      "status": "历史档案 · 来源需重新定位",
+      "retrievable": false,
+      "summary": "保留原文引句、研究口径与冲突记录；来源文件需重新定位，不作为当前问答依据。"
+    },
+    {
+      "id": "evidence-m3",
+      "file": "output/男科教育智能体/01_条目库/M3_生育力预测_v2026-10-11.md",
+      "category": "男科基础知识",
+      "kind": "证据条目",
+      "version": "历史整理（2026-09/10）",
+      "status": "历史档案 · 来源需重新定位",
+      "retrievable": false,
+      "summary": "保留原文引句、研究口径与冲突记录；来源文件需重新定位，不作为当前问答依据。"
+    },
+    {
+      "id": "evidence-m6",
+      "file": "output/男科教育智能体/01_条目库/M6_批判性阅读_v2026-09-14.md",
+      "category": "文献与科研",
+      "kind": "证据条目",
+      "version": "历史整理（2026-09/10）",
+      "status": "历史档案 · 来源需重新定位",
+      "retrievable": false,
+      "summary": "保留原文引句、研究口径与冲突记录；来源文件需重新定位，不作为当前问答依据。"
+    },
+    {
+      "id": "evidence-m7",
+      "file": "output/男科教育智能体/01_条目库/M7_科研入门_v2026-09-14.md",
+      "category": "文献与科研",
+      "kind": "证据条目",
+      "version": "历史整理（2026-09/10）",
+      "status": "历史档案 · 来源需重新定位",
+      "retrievable": false,
+      "summary": "保留原文引句、研究口径与冲突记录；来源文件需重新定位，不作为当前问答依据。"
+    },
+    {
+      "id": "evidence-m8-tt",
+      "file": "output/男科教育智能体/01_条目库/M8-TT_睾丸扭转_v2026-10-12.md",
+      "category": "基本手术",
+      "kind": "证据条目",
+      "version": "历史整理（2026-09/10）",
+      "status": "历史档案 · 来源需重新定位",
+      "retrievable": false,
+      "summary": "保留原文引句、研究口径与冲突记录；来源文件需重新定位，不作为当前问答依据。"
+    },
+    {
+      "id": "evidence-m8-vc2",
+      "file": "output/男科教育智能体/01_条目库/M8-VC2_术式复发率与并发症_v2026-10-12.md",
+      "category": "基本手术",
+      "kind": "证据条目",
+      "version": "历史整理（2026-09/10）",
+      "status": "历史档案 · 来源需重新定位",
+      "retrievable": false,
+      "summary": "保留原文引句、研究口径与冲突记录；来源文件需重新定位，不作为当前问答依据。"
+    },
+    {
+      "id": "evidence-m8-vc3",
+      "file": "output/男科教育智能体/01_条目库/M8-VC3_睾丸动脉损伤与流行病学口径_v2026-10-12.md",
+      "category": "基本手术",
+      "kind": "证据条目",
+      "version": "历史整理（2026-09/10）",
+      "status": "历史档案 · 来源需重新定位",
+      "retrievable": false,
+      "summary": "保留原文引句、研究口径与冲突记录；来源文件需重新定位，不作为当前问答依据。"
+    },
+    {
+      "id": "evidence-m8-vc",
+      "file": "output/男科教育智能体/01_条目库/M8-VC_精索静脉曲张_v2026-10-12.md",
+      "category": "基本手术",
+      "kind": "证据条目",
+      "version": "历史整理（2026-09/10）",
+      "status": "历史档案 · 来源需重新定位",
+      "retrievable": false,
+      "summary": "保留原文引句、研究口径与冲突记录；来源文件需重新定位，不作为当前问答依据。"
+    },
+    {
+      "id": "evidence-m9-art",
+      "file": "output/男科教育智能体/01_条目库/M9-ART_男性因素与辅助生殖结局_v2026-10-12.md",
+      "category": "男科基础知识",
+      "kind": "证据条目",
+      "version": "历史整理（2026-09/10）",
+      "status": "历史档案 · 来源需重新定位",
+      "retrievable": false,
+      "summary": "保留原文引句、研究口径与冲突记录；来源文件需重新定位，不作为当前问答依据。"
+    }
+  ]
+}

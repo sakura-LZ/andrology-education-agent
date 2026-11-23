@@ -1,0 +1,24 @@
+# Nginx 反向代理配置样例（参考）
+# 说明：使用宝塔面板时，在「站点 → 反向代理」中添加即可，无需手写本文件；
+#       本文件供手动配置 Nginx 或排查问题时参考。
+# 生效前请确认 Node 服务已启动：pm2 start server/server.mjs --name andrology-edu
+
+server {
+    listen 80;
+    server_name education.bsnk.cloud;
+
+    location / {
+        proxy_pass http://127.0.0.1:3360;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 120s;   # 聊天接口可能较慢，放宽超时
+    }
+
+    # 阻止直接访问敏感文件（纵深防御；正常反代到 Node 时 Node 只服务 web/ 目录）
+    location ~ /\.env$ { deny all; }
+}
+
+# HTTPS（443）在宝塔面板用 Let's Encrypt 自动生成并续签，无需手写。

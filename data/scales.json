@@ -1,0 +1,106 @@
+{
+  "$schema_note": "量表 cutoff 查表：回答评分/分级时必须以此为准；来源 kb/scales.md（初稿待导师审核）",
+  "review_status": "待导师审核",
+  "iief5": {
+    "name": "IIEF-5 国际勃起功能指数简表（筛查 ED）",
+    "items": 5,
+    "score_range": "5~25",
+    "cutoffs": [
+      {
+        "range": "22–25",
+        "grade": "正常（无 ED）"
+      },
+      {
+        "range": "17–21",
+        "grade": "轻度 ED"
+      },
+      {
+        "range": "12–16",
+        "grade": "中度 ED"
+      },
+      {
+        "range": "8–11",
+        "grade": "中重度 ED"
+      },
+      {
+        "range": "5–7",
+        "grade": "重度 ED"
+      }
+    ]
+  },
+  "iief15": {
+    "name": "IIEF-15 国际勃起功能指数完整版",
+    "note": "含勃起、高潮、性欲、满意度、总体信心 5 个维度，更细致"
+  },
+  "pedt": {
+    "name": "PEDT 早泄诊断量表",
+    "items": 5,
+    "cutoff": {
+      "value": "≥ 11 分",
+      "meaning": "提示 PE 可能性大（筛查用）"
+    }
+  },
+  "ielt": {
+    "name": "IELT 阴道内射精潜伏期",
+    "note": "秒表实测，客观金标准式指标，但受回忆偏倚影响"
+  },
+  "msf4": {
+    "name": "MSF-4 / MSHQ-EjD 男性性健康问卷射精功能维度",
+    "note": "评估射精控制、满意度等"
+  },
+  "phq9": {
+    "name": "PHQ-9 抑郁筛查量表",
+    "items": 9,
+    "score_range": "0~27",
+    "cutoffs": [
+      {
+        "range": "0–4",
+        "grade": "无/轻微"
+      },
+      {
+        "range": "5–9",
+        "grade": "轻度"
+      },
+      {
+        "range": "10–14",
+        "grade": "中度"
+      },
+      {
+        "range": "15–19",
+        "grade": "中重度"
+      },
+      {
+        "range": "20–27",
+        "grade": "重度"
+      }
+    ],
+    "positive": "≥ 10 分为筛查阳性，建议进一步评估",
+    "source_note": "通用标准计分（PHQ-9 原作者 Kroenke 等），请导师核对"
+  },
+  "gad7": {
+    "name": "GAD-7 焦虑筛查量表",
+    "items": 7,
+    "score_range": "0~21",
+    "cutoffs": [
+      {
+        "range": "0–4",
+        "grade": "无/轻微"
+      },
+      {
+        "range": "5–9",
+        "grade": "轻度"
+      },
+      {
+        "range": "10–14",
+        "grade": "中度"
+      },
+      {
+        "range": "15–21",
+        "grade": "重度"
+      }
+    ],
+    "positive": "≥ 10 分为筛查阳性，建议进一步评估",
+    "source_note": "通用标准计分（GAD-7 原作者 Spitzer 等），请导师核对"
+  },
+  "usage_note": "量表是筛查/辅助工具，不替代临床判断；中文版须使用经信效度验证的版本"
+}
